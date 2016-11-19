@@ -1,0 +1,26 @@
+Package: MADPop
+Type: Package
+Title: (MA)jor Histocompatibility Complex-Based (D)ifferentiation between (Pop)ulations
+Version: 0.0.0.9003
+Date: 2016-02-10
+Authors@R: c(person("Martin", "Lysy", role = c("aut", "cre"),
+                    email = "mlysy@uwaterloo.ca"),
+             person("Peter W.J.", "Kim", role = c("aut", "ctb")),
+	     person("Terin", "Robinson", role = "ctb"))
+Maintainer: Martin Lysy <mlysy@uwaterloo.ca>
+Description: Tools for the analysis of two models for fish populations with a
+    variable number of alleles (2 to 4). One implements the basic Hardy-Weinberg
+    equilibrium and the other, a random effects model which pools over ecologically
+    similar sampling environments. Parameters are estimated using efficient Bayesian
+    posterior sampling algorithms as implemented in stan. Bootstrapped p-value
+    estimates for tests of equality between populations are also provided.
+Depends:
+    R (>= 3.0.0),
+    rstan
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+License: GPL-3
+LazyData: true
+RoxygenNote: 5.0.1

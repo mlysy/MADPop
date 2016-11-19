@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Wookjung P. Kim, Terin Robinson, Martin Lysy" />
+
+<meta name="date" content="2016-11-19" />
+
+<title>Bayesian Testing of Equal Genotypic Proportions between Populations</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Bayesian Testing of Equal Genotypic Proportions between Populations</h1>
+<h4 class="author"><em>Wookjung P. Kim, Terin Robinson, Martin Lysy</em></h4>
+<h4 class="date"><em>2016-11-19</em></h4>
+
+
+
+<p>This tutorial shows how to compute Bayesian posterior p-values for the usual chi-squared (<span class="math inline">\(\mathcal X\)</span>) and likelihood ratio (<span class="math inline">\(\Lambda\)</span>) statistics under a hierarchical model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(MADPop)</code></pre></div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Input data must be formatted properly to use with the functions in <strong>MADPop</strong>. An example <code>fish215.csv</code> file is provided in the package’s <strong>extdata</strong> folder. Once imported the data should look like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(fish215)</code></pre></div>
+<pre><code>##    Lake  A1  A2  A3  A4
+## 1 Hogan r.3     r.1 r.6
+## 2 Hogan     r.3     r.1
+## 3 Hogan r.4            
+## 4 Hogan r.4     r.2 r.7
+## 5 Hogan     r.3     r.5
+## 6 Hogan     t.1 r.8 r.1</code></pre>
+<p>Describe what each of the values means in terms of lakes and alleles.</p>
+<p>This data is converted into a numeric format to be used with <strong>MADPop</strong> with the command <code>UM.suff</code>.</p>
+<p><code>UM.suff</code> is a function that converts a matrix of raw allele data into the quantities needed to describe the corresponding Hardy-Weinberg model. The function will return a list with the following:</p>
+<ul>
+<li><code>A</code>: Vector of unique alleles names. The allele numbers in the following quantities correspond to the indices of <code>A</code>.</li>
+<li><code>G</code>: 4-column matrix of unique genotype combinations. The presence of 0’s indicates that less than four alleles were amplified indicating that a given genotype either has less than 4 distinct alleles or that some alleles are duplicated.</li>
+<li><code>tab</code>: Observed data in a simplified numerical format. This is a contingency table with rows given by the unique elements of <code>popID</code> and columns given by each row of <code>G</code>.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xsuff &lt;-<span class="st"> </span><span class="kw">UM.suff</span>(fish215)</code></pre></div>
+<p><code>Xsuff</code> is a list with three components:</p>
+<ul>
+<li><code>A</code>: The allele names found in the data frame <code>fish215</code>. Each is encoded by a number in the given order.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(Xsuff$A)</code></pre></div>
+<pre><code>## [1] &quot;r.1&quot; &quot;r.2&quot; &quot;r.3&quot; &quot;r.4&quot; &quot;r.5&quot; &quot;r.6&quot;</code></pre>
+<ul>
+<li><code>G</code>: A 4-column matrix of unique numerical genotypes. Alleles are sorted and missing alleles (either non-existent in the fish or duplicates which our instrumentation cannot resolve) are denoted by zeros.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(Xsuff$G) <span class="co"># 134 unique genotypes</span></code></pre></div>
+<pre><code>## [1] 134   4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xsuff$G[<span class="dv">1</span>,] <span class="co"># observed genotype is &quot;3&quot;</span></code></pre></div>
+<pre><code>## [1] 0 0 0 3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xsuff$G[<span class="dv">20</span>,] <span class="co"># observed genotype is &quot;1.8&quot;</span></code></pre></div>
+<pre><code>## [1] 0 0 1 8</code></pre>
+<ul>
+<li><code>tab</code>: A contingency table giving the number of counts of each genotype category in each lake.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xsuff$tab[,<span class="dv">1</span>:<span class="dv">10</span>] <span class="co"># 11 lakes and 120 more genotypes</span></code></pre></div>
+<pre><code>##               
+##                1.10 1.18 1.20 1.3 1.3.6 1.4 1.4.20 1.4.32 1.4.5 1.4.5.7
+##   Crystal         0    0    0   0     0   3      0      0     0       0
+##   Dickey          0    0    1   0     0   0      0      0     1       0
+##   Hogan           1    0    0   1     1   1      0      0     0       0
+##   Kingscote       0    0    0   0     0   0      0      0     0       0
+##   Macdonald       0    0    0   0     0   0      0      0     0       0
+##   Manitou         0    0    0   0     0   0      0      0     0       0
+##   Michipicoten    0    1    0   0     0   1      0      0     0       1
+##   Opeongo         0    0    0   0     0   1      0      0     1       0
+##   Seneca          0    0    0   0     0   0      0      1     0       0
+##   Simcoe          0    0    0   0     0   0      0      0     0       0
+##   Slate           0    0    0   0     0   2      1      0     0       0</code></pre>
+</div>
+<div id="model-and-null-hypothesis" class="section level2">
+<h2>Model and Null Hypothesis</h2>
+<p>Let <span class="math inline">\(Y_k\)</span> denote the unique genotype categories… The model is <span class="math display">\[ Y_k | \rho_k \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(\rho_k, N_k), \qquad \rho_k \stackrel{\textrm{iid}}{\sim} \textrm{Dirichlet}(\alpha), \qquad (\bar \alpha, \alpha_0) \sim \frac{1}{(1 + \alpha_0)^2},\]</span> where <span class="math inline">\(\alpha_0 = \sum_{j=1}^C \alpha_j\)</span> and <span class="math inline">\(\bar \alpha = \alpha/\alpha_0\)</span>.</p>
+</div>
+<div id="estimating-the-common-vector-of-genotype-proportions" class="section level2">
+<h2>Estimating the Common Vector of Genotype Proportions</h2>
+<p>This is done using stan.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Michipicoten&quot;</span>, <span class="st">&quot;Simcoe&quot;</span>) <span class="co"># two lakes under consideration</span>
+<span class="co"># popId vector which merges these two lakes under the null</span>
+popId0 &lt;-<span class="st"> </span><span class="kw">paste</span>(lnames, <span class="dt">collapse =</span> <span class="st">&quot;.&quot;</span>)
+popId0 <span class="co"># common lake name</span></code></pre></div>
+<pre><code>## [1] &quot;Michipicoten.Simcoe&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">popId &lt;-<span class="st"> </span><span class="kw">as.character</span>(fish215$Lake)
+popId[popId %in%<span class="st"> </span>lnames] &lt;-<span class="st"> </span>popId0
+<span class="kw">table</span>(popId) <span class="co"># all lake names</span></code></pre></div>
+<pre><code>## popId
+##             Crystal              Dickey               Hogan 
+##                  20                  20                  21 
+##           Kingscote           Macdonald             Manitou 
+##                  18                  19                  20 
+## Michipicoten.Simcoe             Opeongo              Seneca 
+##                  40                  20                  18 
+##               Slate 
+##                  19</code></pre>
+<p>Sample from the posterior distribution. This has 11 lakes, with Simcoe and Michipicoten having been grouped together. Under H0: they are from the same population. # rhoId specifies which of the lakes should the MCMC sampler return estimates for. # in this setup we only care about Simcoe/Michipicoten, so the parameter estimates for # the other models are neither returned nor computed (faster and less space).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># posterior inference in stan</span>
+<span class="co"># don't make too big during development or this will take forever</span>
+<span class="co"># eventually should use nsamples = 1e4</span>
+
+nsamples &lt;-<span class="st"> </span><span class="fl">1e3</span>
+allele0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(popId, fish215[,-<span class="dv">1</span>]) <span class="co"># data with merged lakes</span>
+
+hUM.fit &lt;-<span class="st"> </span><span class="kw">hUM.post</span>(<span class="dt">nsamples =</span> nsamples, <span class="dt">X =</span> allele0,
+                    <span class="dt">rhoId =</span> popId0, <span class="co"># output only merged lakes to save space</span>
+                    <span class="dt">chains =</span> <span class="dv">1</span>, <span class="co"># next two arguments are passed to stan</span>
+                    <span class="dt">warmup =</span> <span class="kw">min</span>(<span class="fl">1e4</span>, <span class="kw">floor</span>(nsamples/<span class="dv">10</span>)))</code></pre></div>
+<pre><code>## 
+## SAMPLING FOR MODEL 'DirichletMultinomial' NOW (CHAIN 1).
+## WARNING: The initial buffer, adaptation window, and terminal buffer
+##          overflow the total number of warmup iterations.
+##          Defaulting to a 15%/75%/10% partition,
+##            init_buffer = 15
+##            adapt_window = 75
+##            term_buffer = 10
+## 
+## 
+## Chain 1, Iteration:   1 / 1000 [  0%]  (Warmup)
+## Chain 1, Iteration: 100 / 1000 [ 10%]  (Warmup)
+## Chain 1, Iteration: 101 / 1000 [ 10%]  (Sampling)
+## Chain 1, Iteration: 200 / 1000 [ 20%]  (Sampling)
+## Chain 1, Iteration: 300 / 1000 [ 30%]  (Sampling)
+## Chain 1, Iteration: 400 / 1000 [ 40%]  (Sampling)
+## Chain 1, Iteration: 500 / 1000 [ 50%]  (Sampling)
+## Chain 1, Iteration: 600 / 1000 [ 60%]  (Sampling)
+## Chain 1, Iteration: 700 / 1000 [ 70%]  (Sampling)
+## Chain 1, Iteration: 800 / 1000 [ 80%]  (Sampling)
+## Chain 1, Iteration: 900 / 1000 [ 90%]  (Sampling)
+## Chain 1, Iteration: 1000 / 1000 [100%]  (Sampling)
+##  Elapsed Time: 0.58 seconds (Warm-up)
+##                4.739 seconds (Sampling)
+##                5.319 seconds (Total)
+## 
+## [1] &quot;The following numerical problems occured the indicated number of times after warmup on chain 1&quot;
+##                                                                                                      count
+## Exception thrown at line 70: Exception thrown at line 38: Error in function boost::math::lgamma&lt;long     2
+## [1] &quot;When a numerical problem occurs, the Hamiltonian proposal gets rejected.&quot;
+## [1] &quot;If the number in the 'count' column is small,  do not ask about this message on stan-users.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rho.post &lt;-<span class="st"> </span>hUM.fit$rho[,<span class="dv">1</span>,] <span class="co"># convert 3-d array to 2-d matrix</span></code></pre></div>
+<p>The posterior distributions of the 20 most probable genotype are plotted below (run the command <code>edit(vignette(MADPop-tutorial))</code> to see the code).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">propId &lt;-<span class="st"> </span><span class="kw">order</span>(<span class="kw">colMeans</span>(rho.post))[<span class="dv">1</span>:<span class="dv">20</span>]
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,.<span class="dv">1</span>,.<span class="dv">1</span>))
+<span class="kw">boxplot</span>(rho.post[,propId],
+        <span class="dt">las =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">cex.axis =</span> .<span class="dv">8</span>,
+        <span class="dt">xlab =</span> <span class="st">&quot;Genotype&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="posterior-p-value-calculation" class="section level2">
+<h2>Posterior p-value Calculation</h2>
+<p>Let <span class="math inline">\(T\)</span> denote any test statistic for evaluating the null hypothesis that lakes Michipicoten and Simcoe have the same genotype proportions. Two of the most popular statistics to this end are:</p>
+<ul>
+<li><em>Pearson’s chi-squared statistic</em>: <span class="math display">\[ \mathcal X = ??? \]</span></li>
+<li>The <em>likelihood ratio statistic</em>: <span class="math display">\[ \Lambda = ??? \]</span></li>
+</ul>
+<p>With <span class="math inline">\(T_{\textrm{obs}}\)</span> being the observed value of the test statistic in the data at hand, the posterior p-value is defined as <span class="math display">\[
+p_{\textrm{post}} = \textrm{Pr}(T &gt; T_{\textrm{obs}} | data, H_0).
+\]</span> This is calculated in <strong>MADPop</strong> by using <code>rho.post</code> to generate samples from <span class="math inline">\(p(T | data, H_0)\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># number of observations in each lake</span>
+N1 &lt;-<span class="st"> </span><span class="kw">sum</span>(Xsuff$tab[<span class="st">&quot;Michipicoten&quot;</span>,])
+N2 &lt;-<span class="st"> </span><span class="kw">sum</span>(Xsuff$tab[<span class="st">&quot;Simcoe&quot;</span>,])
+<span class="co"># generate samples from p(T | data, H_0)</span>
+T.post &lt;-<span class="st"> </span><span class="kw">UM.eqtest</span>(<span class="dt">N1 =</span> N1, <span class="dt">N2 =</span> N2, <span class="dt">p0 =</span> rho.post, <span class="dt">nreps =</span> <span class="fl">1e4</span>)</code></pre></div>
+<pre><code>## bootstrap sample 5000/10000</code></pre>
+<pre><code>## bootstrap sample 10000/10000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(T.post) <span class="co"># computes both chi^2 and LRT</span></code></pre></div>
+<pre><code>##          chi2      LRT
+## [1,] 23.20000 31.40653
+## [2,] 22.00000 29.76468
+## [3,] 31.33333 43.31492
+## [4,] 22.00000 30.13158
+## [5,] 25.41905 33.75421
+## [6,] 24.53333 33.44532</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate T.obs</span>
+tab.obs &lt;-<span class="st"> </span>Xsuff$tab[lnames,] <span class="co"># observed table</span>
+<span class="co"># automatically removes categories where both lakes have zero observations</span>
+T.obs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">chi2 =</span> <span class="kw">chi2.stat</span>(tab.obs),
+           <span class="dt">LRT =</span> <span class="kw">LRT.stat</span>(tab.obs))
+p.post &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">chi2 =</span> <span class="kw">mean</span>(T.post[,<span class="st">&quot;chi2&quot;</span>] &gt;=<span class="st"> </span>T.obs[<span class="st">&quot;chi2&quot;</span>]),
+            <span class="dt">LRT =</span> <span class="kw">mean</span>(T.post[,<span class="st">&quot;LRT&quot;</span>] &gt;=<span class="st"> </span>T.obs[<span class="st">&quot;LRT&quot;</span>]))
+p.post <span class="co"># posterior p-values</span></code></pre></div>
+<pre><code>##   chi2    LRT 
+## 0.3426 0.3337</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

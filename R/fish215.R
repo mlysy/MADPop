@@ -1,0 +1,9 @@
+#' @name fish215
+#' @title Genotypes of Lake Trout from Ontario, Canada.
+#' @description Observable genotypes (up to possibly duplicated alleles) of 215 lake trout (\emph{Salvelinus namaycush}) collected from 11 lakes in Ontario, Canada.
+#' @details This \code{data.frame} is supposed to look like a typical spreadsheet of allele data imported into R.  Data must adhere to this format to be correctly processed by the functions in \pkg{MADPop}.
+#' @format A \code{data.frame} with 215 rows and 5 columns.  The first column is an (optional) vector of population identifiers.  The next four columns contain allele data for each observation (row).  Each row contains up to four distinct allele identifiers in any order.  Missing alleles should be denoted by \code{NA}, or "", but not both.
+#' @source Kuntz, S. (2014). \emph{Population Differentiation of Ontario Lake trout (Salvelinus namaycush) using the Major Histocompatibility Complex class II \eqn{\beta} gene} (\href{https://uwspace.uwaterloo.ca/bitstream/handle/10012/8542/Kuntz_Steven.pdf?sequence=1}{URL}).
+#' @examples
+#' head(fish215)
+NULL

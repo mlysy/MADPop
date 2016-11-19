@@ -1,0 +1,6 @@
+^\.Rhistory$
+^Read-and-delete-me$
+^setup\.R$
+^vignettes-old$
+^vignettes/setup$
+^inst/stan/.*.RData$
