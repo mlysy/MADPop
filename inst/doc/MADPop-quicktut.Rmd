@@ -1,0 +1,153 @@
+---
+title: "Bayesian Testing of Equal Genotype Proportions between
+Multiple Populations"
+author: "Martin Lysy, Wookjung P. Kim"
+date: "`r Sys.Date()`"
+output: pdf_document
+header-includes:
+- \usepackage{bm}
+
+vignette: >
+  %\VignetteIndexEntry{Bayesian Testing of Equal Genotype Proportions between Multiple Populations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+if(FALSE) {
+  #setwd("C:/Users/Peter/Dropbox/test/MADPop")
+  setwd("c:/Users/Jerome/Dropbox/Shared/allele/MADPop")
+  pkg.path <- getwd()
+  require(rmarkdown)
+  rmarkdown::render(file.path(pkg.path, "vignettes", "MADPop-quicktut.Rmd"))
+  # view it by opening MADPop/vignettes/MADPop-tutorial.html
+}
+```
+
+This tutorial shows how to use the **MADPop** package to test for genetic differences between two populations, of which the species contain a variable number of alleles.
+```{r}
+require(MADPop)
+```
+
+
+## Pre-Processing
+
+```{r, echo = FALSE}
+nObs <- nrow(fish215)
+nPop <- nlevels(fish215$Lake)
+nAlleles <- length(table(c(as.matrix(fish215[,-1])))) - 1
+```
+
+Our data consists of $N = `r nObs`$ recordings of Major Histocompatibility Complex (MHC) genotypes  of lake trout from $K = `r nPop`$ lakes in Ontario, Canada. For each of the fish, between 1-4 alleles in the MHC genotype are recorded.  This is partially because duplicate genes are undetectable by current instrumentation, and possibly because the fish possess a variable number of alleles at the given MHC locations.
+
+Our dataset `fish215` is included with **MADPop**.  A random sample from it looks like this:
+```{r}
+head(fish215[sample(nObs),])
+```
+The first column is the lake name (or population ID) for each sample, the remaining four columns are for potentially recorded allele codes (`A1`-`A4`).  Here the code to identify a unique allele is a small letter followed by a number, but it could have been the sequence of integers $1, 2,\ldots, A$, which for the `fish215` data is $A = `r nAlleles`$ unique alleles.
+
+It is relatively straightforward to import a CSV file into the format above.  An example of this is given along with our raw data in the **extdata** directory of the local copy of the **MADPop** package.
+
+## Two-Population Comparisons
+
+```{r setup2, ref.label = "table2", echo = FALSE, results = "hide"}
+```
+
+Suppose that we wish to compare two lakes, say `r popID[1]` and `r popID[2]`.  The allele counts in these lakes are in the table below.  It is a subset of the full contingency table on all $K = `r nPop`$ lakes, which is produced by the **MADPop** function `UM.suff`:
+```{r table2}
+popID <- c("Michipicoten", "Simcoe")   # lakes to compare
+Xsuff <- UM.suff(fish215)             # summary statistics for dataset
+ctab <- Xsuff$tab[popID,]            # contingency table
+ctab <- ctab[,colSums(ctab) > 0] # remove alleles with no counts
+#ctab
+rbind(ctab, Total = colSums(ctab))
+```
+The unique allele identifiers are encoded as integers between $1$ and $A$ and separated by dots.  The original allele names are stored in `Xsuff$A`, such that the genotype of the first column ``r colnames(ctab)[1]`` is
+```{r}
+gtype <- colnames(ctab)[1]
+gtype <- as.numeric(strsplit(gtype, "[.]")[[1]])
+gtype
+names(gtype) <- paste0("A", gtype)
+sapply(gtype, function(ii) Xsuff$A[ii])
+```
+There are $C = `r ncol(ctab)`$ genotype combinations observed in these two lakes, corresponding to each column of the table.
+
+### Multinomial Model
+
+In the two-population problem we have $K = 2$ lakes with $N_1$ and $N_2$ fish sampled from each.  Let $\bm Y_k = (Y_{k1}, \ldots Y_{kC})$ denote the counts for each genotype observed in lake $k$, such that $\sum_{i=1}^C Y_{ki} = N_k$.  The sampling model for these data is
+$$ \bm Y_k \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(N_k, \boldsymbol\rho_k),$$
+where $\boldsymbol\rho_k = (\rho_{k1},...,\rho_{kC})$ are the population proportions of each genotype, and $\sum_{i=1}^C \rho_{ki} = 1$.
+
+### Hypothesis Testing
+
+Our objective is to test
+$$
+\begin{split}
+H_0 &: \textrm{The two populations have the same genotype proportions} \\
+& \phantom{: } \iff \boldsymbol \rho_1 = \boldsymbol \rho_2.
+\end{split}
+$$
+The classical test statistics for assessing $H_0$ are Pearson's Chi-Square statistic $\mathcal X$ and the Likelihood Ratio statistic $\Lambda$,
+$$
+\mathcal X = \sum_{k=1}^2 \sum_{i=1}^C \frac{(N_k\hat\rho_i - Y_{ki})^2}{N_k\hat\rho_i}, \qquad \Lambda = 2 \sum_{k=1}^2 \sum_{i=1}^C Y_{ki} \log\left(\frac{Y_{ki}}{N_k\hat\rho_i}\right), \qquad \hat \rho_i = \frac{Y_{1i} + Y_{2i}}{N_1 + N_2}.
+$$
+Under $H_0$, the asymptotic distribution of either of these test statistics $T = \mathcal X$ or $\Lambda$ is $\chi^2_{(C-1)}$, such that the $p$-value
+$$
+\textrm{p}_\textrm{v} = \textrm{Pr}(T > T_\textrm{obs} \mid H_0)
+$$
+for an observed value of $T_\textrm{obs}$ can be estimated as follows:
+```{r}
+# observed values of the test statistics
+chi2.obs <- chi2.stat(ctab) # Pearson's chi^2
+LRT.obs <- LRT.stat(ctab) # LR test statistic
+T.obs <- c(chi2 = chi2.obs, LRT = LRT.obs)
+# p-value with asymptotic calculation
+C <- ncol(ctab)
+pv.asy <- pchisq(q = T.obs, df = C-1, lower.tail = FALSE)
+signif(pv.asy, 2)
+```
+The Chi-Square and LR tests are asymptotically equivalent and so should give roughly the same $p$-values.  The huge discrepancy observed here indicates that the sample sizes are too small for asymptotics to kick in.  A more reliable $p$-value estimate can be obtained by the Bootstrap method, which in this case consists of generating multiple simulated contigency tables with $\boldsymbol Y_k \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(N_k, \hat{\boldsymbol \rho})$, where $\hat{\boldsymbol \rho}$ is the estimate of the common probability vector $\boldsymbol \rho_1 = \boldsymbol \rho_2$ under $H_0$.  The bootstrapped $p$-value estimate can be calculated with **MADPop** as follows:
+```{r, cache = TRUE}
+N1 <- sum(ctab[1,])                     # size of first sample
+N2 <- sum(ctab[2,])                     # size of second sample
+rho.hat <- colSums(ctab)/(N1+N2)        # common probability vector
+# bootstrap distribution of the test statistics
+# set verbose = TRUE for progress output
+system.time({
+  T.boot <- UM.eqtest(N1 = N1, N2 = N2, p0 = rho.hat, nreps =1e4,
+                      verbose = FALSE)
+})
+# bootstrap p-value
+pv.boot <- rowMeans(t(T.boot) >= T.obs)
+signif(pv.boot, 2)
+```
+Note that the bootstrap $p$-values for both tests are roughly the same and decisively reject $H_0$, whereas the less reliable asymptotic $p$-values both failed to reject (at quite different significance levels).
+
+## Pairwise Comparisons between Multiple Populations
+
+Bootstrapping overcomes many deficiencies of the asymptotic $p$-value calculation.  However, bootstrapping has a tendency to reject $H_0$ when sample sizes are small.  To see why this is, consider all columns of `ctab` which have only one genotype count between the two lakes:
+```{r}
+itab1 <- colSums(ctab) == 1             # single count genotypes
+cbind(ctab[,itab1],
+      Other = rowSums(ctab[,!itab1]),
+      Total = rowSums(ctab))
+```
+```{r, echo = FALSE}
+c1 <- sum(itab1) # number of single-count columns
+n1 <- sum(ctab[,itab1]) # number of single counts
+```
+There are $c_1 = `r c1`$ such columns, accounting for $\hat p_1 = `r n1/sum(ctab)`$ of the common genotype distribution under $H_0$, as estimated from the two-lake sample.  For each of these columns, observing counts in one lake but not the other provides evidence against $H_0$.  Moreover, under the estimated common distribution $\hat {\boldsymbol \rho}$, it is very unlikely to have counts in only one of the lakes for each of these $c_1 = `r c1`$ genotypes.  Therefore, the data appear to provide very strong evidence against $H_0$.  However, it is not so unlikely to have $c_1 = `r c1`$ one-count genotypes if the true number of unique genotypes in these two lakes is much larger than the observed value of $C = `r C`$.  With $C = `r C`$ unique genotypes in only $N = N_1 + N_2 = `r N1 + N2`$ fish samples, it is quite plausible that a new sample of fish would yield several genotypes which are not present in the original sample ``ctab``.
+
+
+
+Under this (estimated) common distribution $\hat {\boldsymbol \rho}$, it is very unlikely to have zero comm
+
+
+and for equal sample sizes $N_1 = N_2 = `r N1`$, having all counts of a genotype
+
+let's consider the first column of `ctab` which are the counts of observed genotype ``r colnames(ctab)[1]``.  There are some counts of ``r colnames(ctab)[1]`` in one lake (exactly one) and zero counts of it in the other, which is evidence against the proportions of that genotype being the same in both lakes.  Since there is only one observation of ``r colnames(ctab)[1]`` between the two lakes, differences in that genotype shouldn't count for much evidence against $H_0$
+
+There is only one observation of ``r colnames(ctab)[1]`` between the two lakes, so every bootstrapped contingency table will have one count of ``r colnames(ctab)[1]`` in one of the lakes and zero counts in the other.  In some sense, having all the counts of a genotype in one lake is the maximum amount of evidence against the proportions of that genotype being the same in both lakes.  Since there is only one observation of ``r colnames(ctab)[1]`` between the two lakes, differences in that genotype shouldn't count for much evidence against $H_0$
+
+
+To see this, note that many of the alleles in `ctab` are only observed in one of the two lakes, making these lakes look different in terms of that allele.
