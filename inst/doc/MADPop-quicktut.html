@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Martin Lysy, Wookjung P. Kim, Terin Robinson" />
+
+<meta name="date" content="2016-12-21" />
+
+<title>Bayesian Testing of Equal Genotype Proportions between Multiple Populations</title>
+
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Bayesian Testing of Equal Genotype Proportions between Multiple Populations</h1>
+<h4 class="author"><em>Martin Lysy, Wookjung P. Kim, Terin Robinson</em></h4>
+<h4 class="date"><em>2016-12-21</em></h4>
+
+
+
+<p>This tutorial shows how to use the <strong>MADPop</strong> package to test for genetic differences between two populations, of which the species contain a variable number of alleles.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(MADPop)</code></pre></div>
+<div id="pre-processing" class="section level2">
+<h2>Pre-Processing</h2>
+<p>Our data consists of <span class="math inline">\(N = 215\)</span> recordings of Major Histocompatibility Complex (MHC) genotypes of lake trout from <span class="math inline">\(K = 11\)</span> lakes in Ontario, Canada. For each of the fish, between 1-4 alleles in the MHC genotype are recorded. This is partially because duplicate genes are undetectable by current instrumentation, and possibly because the fish possess a variable number of alleles at the given MHC locations.</p>
+<p>Our dataset <code>fish215</code> is included with <strong>MADPop</strong>. A random sample from it looks like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(fish215[<span class="kw">sample</span>(nObs),])</code></pre></div>
+<pre><code>##             Lake  A1  A2  A3  A4
+## 28        Simcoe r.3            
+## 63  Michipicoten         u.2 r.1
+## 69  Michipicoten r.5 r.7 r.4 r.1
+## 88       Opeongo     r.5 r.4 r.2
+## 16         Hogan             r.4
+## 161    Kingscote r.5</code></pre>
+<p>The first column is the lake name (or population ID) for each sample, the remaining four columns are for potentially recorded allele codes (<code>A1</code>-<code>A4</code>). Here the code to identify a unique allele is a small letter followed by a number, but it could have been the sequence of integers <span class="math inline">\(1, 2,\ldots, A\)</span>, which for the <code>fish215</code> data is <span class="math inline">\(A = 57\)</span> unique alleles.</p>
+<p>It is relatively straightforward to import a CSV file into the format above. An example of this is given along with our raw data in the <strong>extdata</strong> directory of the local copy of the <strong>MADPop</strong> package.</p>
+</div>
+<div id="two-population-comparisons" class="section level2">
+<h2>Two-Population Comparisons</h2>
+<p>Suppose that we wish to compare two lakes, say Dickey and Simcoe. The allele counts in these lakes are in the table below. It is a subset of the full contingency table on all <span class="math inline">\(K = 11\)</span> lakes, which is produced by the <strong>MADPop</strong> function <code>UM.suff</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">popId &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Dickey&quot;</span>, <span class="st">&quot;Simcoe&quot;</span>)          <span class="co"># lakes to compare</span>
+Xsuff &lt;-<span class="st"> </span><span class="kw">UM.suff</span>(fish215)             <span class="co"># summary statistics for dataset</span>
+ctab &lt;-<span class="st"> </span>Xsuff$tab[popId,]             <span class="co"># contingency table</span>
+ctab &lt;-<span class="st"> </span>ctab[,<span class="kw">colSums</span>(ctab) &gt;<span class="st"> </span><span class="dv">0</span>] <span class="co"># remove alleles with no counts</span>
+<span class="co">#ctab</span>
+<span class="kw">rbind</span>(ctab, <span class="dt">Total =</span> <span class="kw">colSums</span>(ctab))</code></pre></div>
+<pre><code>##        1.20 1.4.5 1.4.9.45 1.5 10 20 20.54 27.28.29 3 4 4.10 4.11 4.20.27
+## Dickey    1     1        0   2  0  2     1        1 0 0    1    0       1
+## Simcoe    0     0        1   1  2  0     0        0 1 1    2    1       0
+## Total     1     1        1   3  2  2     1        1 1 1    3    1       1
+##        4.20.31 4.20.45 4.27 4.33 4.5 4.53.55 4.56 4.7 4.7.10 5 5.20 5.30
+## Dickey       1       1    1    0   1       1    1   0      0 0    1    1
+## Simcoe       0       0    0    1   1       0    0   3      1 1    0    0
+## Total        1       1    1    1   2       1    1   3      1 1    1    1
+##        5.32 5.7 7 9.11
+## Dickey    1   1 0    0
+## Simcoe    0   1 2    1
+## Total     1   2 2    1</code></pre>
+<p>The unique allele identifiers are encoded as integers between <span class="math inline">\(1\)</span> and <span class="math inline">\(A\)</span> and separated by dots. The original allele names are stored in <code>Xsuff$A</code>, such that the genotype of the first column <code>1.20</code> is</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gtype &lt;-<span class="st"> </span><span class="kw">colnames</span>(ctab)[<span class="dv">1</span>]
+gtype &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">strsplit</span>(gtype, <span class="st">&quot;[.]&quot;</span>)[[<span class="dv">1</span>]])
+gtype</code></pre></div>
+<pre><code>## [1]  1 20</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(gtype) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;A&quot;</span>, gtype)
+<span class="kw">sapply</span>(gtype, function(ii) Xsuff$A[ii])</code></pre></div>
+<pre><code>##    A1   A20 
+## &quot;r.1&quot; &quot;u.4&quot;</code></pre>
+<p>There are <span class="math inline">\(C = 29\)</span> genotype combinations observed in these two lakes, corresponding to each column of the table.</p>
+<div id="multinomial-model" class="section level3">
+<h3>Multinomial Model</h3>
+<p>In the two-population problem we have <span class="math inline">\(K = 2\)</span> lakes with <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_2\)</span> fish sampled from each. Let <span class="math inline">\({\boldsymbol Y}_k = (Y_{k1}, \ldots Y_{kC})\)</span> denote the counts for each genotype observed in lake <span class="math inline">\(k\)</span>, such that <span class="math inline">\(\sum_{i=1}^C Y_{ki} = N_k\)</span>. The sampling model for these data is <span class="math display">\[
+{\boldsymbol Y}_k {\stackrel{\textrm{ind}}{\sim}}\textrm{Multinomial}(N_k, {\boldsymbol \rho}_k), \quad k = 1,2,
+\]</span> where <span class="math inline">\({\boldsymbol \rho}_k = (\rho_{k1},...,\rho_{kC})\)</span> are the population proportions of each genotype, and <span class="math inline">\(\sum_{i=1}^C \rho_{ki} = 1\)</span>.</p>
+</div>
+<div id="hypothesis-testing" class="section level3">
+<h3>Hypothesis Testing</h3>
+<p>Our objective is to test <span class="math display">\[
+\begin{split}
+H_0 &amp;: \textrm{The two populations have the same genotype proportions} \\
+&amp; \phantom{: } \iff {\boldsymbol \rho}_1 = {\boldsymbol \rho}_2.
+\end{split}
+\]</span> The classical test statistics for assessing <span class="math inline">\(H_0\)</span> are Pearson’s Chi-Square statistic <span class="math inline">\(\mathcal X\)</span> and the Likelihood Ratio statistic <span class="math inline">\(\Lambda\)</span>, <span class="math display">\[
+\mathcal X = \sum_{k=1}^2 \sum_{i=1}^C \frac{(N_k\hat\rho_i - Y_{ki})^2}{N_k\hat\rho_i}, \qquad \Lambda = 2 \sum_{k=1}^2 \sum_{i=1}^C Y_{ki} \log\left(\frac{Y_{ki}}{N_k\hat\rho_i}\right), \qquad \hat \rho_i = \frac{Y_{1i} + Y_{2i}}{N_1 + N_2}.
+\]</span> Under <span class="math inline">\(H_0\)</span>, the asymptotic distribution of either of these test statistics <span class="math inline">\(T = \mathcal X\)</span> or <span class="math inline">\(\Lambda\)</span> is <span class="math inline">\(\chi^2_{(C-1)}\)</span>, such that the <span class="math inline">\(p\)</span>-value <span class="math display">\[
+{\textrm{p}_\textrm{v}}= \textrm{Pr}(T &gt; T_\textrm{obs} \mid H_0)
+\]</span> for an observed value of <span class="math inline">\(T_\textrm{obs}\)</span> can be estimated as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># observed values of the test statistics</span>
+chi2.obs &lt;-<span class="st"> </span><span class="kw">chi2.stat</span>(ctab) <span class="co"># Pearson's chi^2</span>
+LRT.obs &lt;-<span class="st"> </span><span class="kw">LRT.stat</span>(ctab) <span class="co"># LR test statistic</span>
+T.obs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">chi2 =</span> chi2.obs, <span class="dt">LRT =</span> LRT.obs)
+<span class="co"># p-value with asymptotic calculation</span>
+C &lt;-<span class="st"> </span><span class="kw">ncol</span>(ctab)
+pv.asy &lt;-<span class="st"> </span><span class="kw">pchisq</span>(<span class="dt">q =</span> T.obs, <span class="dt">df =</span> C<span class="dv">-1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+<span class="kw">signif</span>(pv.asy, <span class="dv">2</span>)</code></pre></div>
+<pre><code>##  chi2   LRT 
+## 0.330 0.041</code></pre>
+<p>The Chi-Square and LR tests are asymptotically equivalent and so should give roughly the same <span class="math inline">\(p\)</span>-values. The huge discrepancy observed here indicates that the sample sizes are too small for asymptotics to kick in. A more reliable <span class="math inline">\(p\)</span>-value estimate can be obtained by the Bootstrap method, which in this case consists of simulating <span class="math inline">\(M\)</span> contigency tables with <span class="math inline">\({\boldsymbol Y}_k^{(m)} {\stackrel{\textrm{ind}}{\sim}}\textrm{Multinomial}(N_k, \hat{{\boldsymbol \rho}})\)</span>, <span class="math inline">\(m = 1, \ldots, M\)</span>, where <span class="math inline">\(\hat{{\boldsymbol \rho}}\)</span> is the estimate of the common probability vector <span class="math inline">\({\boldsymbol \rho}_1 = {\boldsymbol \rho}_2\)</span> under <span class="math inline">\(H_0\)</span>. For each contingency table <span class="math inline">\(({\boldsymbol Y}_1^{(m)}, {\boldsymbol Y}_2^{(m)})\)</span>, we calculate the test statistic <span class="math inline">\(T^{(m)}\)</span>, and the bootstrapped p-value is defined as <span class="math display">\[
+{\textrm{p}_\textrm{v}^{\textrm{boot}}}= \frac 1 M \sum*{m=1}^M \delta(T^{(m)} \ge T_\textrm{obs}).
+\]</span> <span class="math inline">\({\textrm{p}_\textrm{v}^{\textrm{boot}}}\)</span> is calculated with <strong>MADPop</strong> as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">N1 &lt;-<span class="st"> </span><span class="kw">sum</span>(ctab[<span class="dv">1</span>,])                     <span class="co"># size of first sample</span>
+N2 &lt;-<span class="st"> </span><span class="kw">sum</span>(ctab[<span class="dv">2</span>,])                     <span class="co"># size of second sample</span>
+rho.hat &lt;-<span class="st"> </span><span class="kw">colSums</span>(ctab)/(N1+N2)        <span class="co"># common probability vector</span>
+<span class="co"># bootstrap distribution of the test statistics</span>
+<span class="co"># set verbose = TRUE for progress output</span>
+<span class="kw">system.time</span>({
+  T.boot &lt;-<span class="st"> </span><span class="kw">UM.eqtest</span>(<span class="dt">N1 =</span> N1, <span class="dt">N2 =</span> N2, <span class="dt">p0 =</span> rho.hat, <span class="dt">nreps =</span><span class="fl">1e4</span>,
+                      <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+})</code></pre></div>
+<pre><code>##    user  system elapsed 
+##    0.95    0.00    0.96</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bootstrap p-value</span>
+pv.boot &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span class="kw">t</span>(T.boot) &gt;=<span class="st"> </span>T.obs)
+<span class="kw">signif</span>(pv.boot, <span class="dv">2</span>)</code></pre></div>
+<pre><code>##   chi2    LRT 
+## 0.0074 0.0069</code></pre>
+<p>Note that the bootstrap <span class="math inline">\(p\)</span>-values for both tests are roughly the same and decisively reject <span class="math inline">\(H_0\)</span>, whereas the less reliable asymptotic <span class="math inline">\(p\)</span>-values both failed to reject (at quite different significance levels).</p>
+</div>
+</div>
+<div id="pairwise-comparisons-between-multiple-populations" class="section level2">
+<h2>Pairwise Comparisons between Multiple Populations</h2>
+<p>Bootstrapping overcomes many deficiencies of the asymptotic <span class="math inline">\(p\)</span>-value calculation. However, bootstrapping has a tendency to reject <span class="math inline">\(H_0\)</span> when sample sizes are small. To see why this is, consider all columns of <code>ctab</code> which have only one genotype count between the two lakes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">itab1 &lt;-<span class="st"> </span><span class="kw">colSums</span>(ctab) ==<span class="st"> </span><span class="dv">1</span>             <span class="co"># single count genotypes</span>
+<span class="kw">cbind</span>(ctab[,itab1],
+      <span class="dt">Other =</span> <span class="kw">rowSums</span>(ctab[,!itab1]),
+      <span class="dt">Total =</span> <span class="kw">rowSums</span>(ctab))</code></pre></div>
+<pre><code>##        1.20 1.4.5 1.4.9.45 20.54 27.28.29 3 4 4.11 4.20.27 4.20.31 4.20.45
+## Dickey    1     1        0     1        1 0 0    0       1       1       1
+## Simcoe    0     0        1     0        0 1 1    1       0       0       0
+##        4.27 4.33 4.53.55 4.56 4.7.10 5 5.20 5.30 5.32 9.11 Other Total
+## Dickey    1    0       1    1      0 0    1    1    1    0     7    20
+## Simcoe    0    1       0    0      1 1    0    0    0    1    12    20</code></pre>
+<p>There are <span class="math inline">\(c_1 = 21\)</span> such columns, accounting for <span class="math inline">\(\hat p_1 = 0.525\)</span> of the common genotype distribution under <span class="math inline">\(H_0\)</span>, as estimated from the two-lake sample. For each of these columns, observing counts in one lake but not the other provides evidence against <span class="math inline">\(H_0\)</span>. Moreover, under the estimated common distribution <span class="math inline">\(\hat {{\boldsymbol \rho}}\)</span>, it is very unlikely to have counts in only one of the lakes for each of these <span class="math inline">\(c_1 = 21\)</span> genotypes. Therefore, the data appear to provide very strong evidence against <span class="math inline">\(H_0\)</span>. However, it is not so unlikely to have <span class="math inline">\(c_1 = 21\)</span> one-count genotypes if the true number of unique genotypes in these two lakes is much larger than the observed value of <span class="math inline">\(C = 29\)</span>. With <span class="math inline">\(C = 29\)</span> unique genotypes in only <span class="math inline">\(N = N_1 + N_2 = 40\)</span> fish samples, it is quite plausible that a new sample of fish would yield several genotypes which are not present in the original two-lake sample <code>ctab</code>.</p>
+<p>One way to obtain information about the unobserved genotypes in lakes Dickey and Simcoe is to consider the genotypes in <em>all</em> <span class="math inline">\(K = 11\)</span> Ontario lakes for which we have collected data. A natural way to do this is through a hierarchical model: <span class="math display">\[
+\begin{split}
+{\boldsymbol Y}_k \mid {\boldsymbol \rho}_k &amp; {\stackrel{\textrm{ind}}{\sim}}\textrm{Multinomial}(N_k, {\boldsymbol \rho}_k), \quad k = 1,\ldots,K \\
+{\boldsymbol \rho}_k &amp; {\stackrel{\textrm{iid}}{\sim}}\textrm{Dirichlet}({\boldsymbol \alpha}), \qquad {\boldsymbol \alpha}= (\alpha_1, \ldots, \alpha_C).
+\end{split}
+\]</span> That is, each population is allowed to have its own probability vector <span class="math inline">\({\boldsymbol \rho}_k\)</span>. However, these probability vectors are drawn from a common Dirichlet distribution. The common distribution specifies that before any data is drawn, we have <span class="math display">\[
+E[{\boldsymbol \rho}] = \bar {\boldsymbol \alpha}, \qquad {\textrm{var}}(\rho_i) = \frac{(\bar \alpha_i)(1-\bar \alpha_i)}{\alpha_0 + 1},
+\]</span> where <span class="math inline">\(\alpha_0 = \sum_{i=1}^C \alpha_i\)</span> and <span class="math inline">\(\bar{{\boldsymbol \alpha}} = {\boldsymbol \alpha}/ \alpha_0\)</span>. Moreover, the posterior distribution of <span class="math inline">\({\boldsymbol \rho}_k\)</span> given <span class="math inline">\({\boldsymbol \alpha}\)</span> and the data is also Dirichlet: <span class="math display">\[
+{\boldsymbol \rho}_k \mid {\boldsymbol Y}{\stackrel{\textrm{ind}}{\sim}}\textrm{Dirichlet}({\boldsymbol \alpha}+ {\boldsymbol Y}_k).
+\]</span> In this sense, the posterior estimate of the probability vector <span class="math inline">\({\boldsymbol \rho}_k\)</span> can be non-zero even for genotypes for which <span class="math inline">\(Y_{ki} = 0\)</span>, as long as <span class="math inline">\(\alpha_i &gt; 0\)</span>. In practice, we estimate <span class="math inline">\({\boldsymbol \alpha}\)</span> from the data <span class="math inline">\({\boldsymbol Y}\)</span> from all <span class="math inline">\(K\)</span> populations (details in the following section). The extent to which the genotypes observed in one lake affect inference in the other lakes is determined by <span class="math inline">\(\alpha_0\)</span> (the larger this value, the larger the effect).</p>
+<div id="parameter-estimation" class="section level3">
+<h3>Parameter Estimation</h3>
+<p>The likelihood function for this model corresponds to a Dirichlet-Multinomial distribution, <span class="math display">\[
+\begin{split}
+\mathcal L({\boldsymbol \alpha}\mid {\boldsymbol Y}) = \prod_{k=1}^K p({\boldsymbol Y}_k \mid {\boldsymbol \alpha}) &amp; = \prod_{k=1}^K \int p({\boldsymbol Y}_k \mid {\boldsymbol \rho}_k) p({\boldsymbol \rho}_k \mid {\boldsymbol \alpha}) \,\mathrm{d}{\boldsymbol \rho}_k \\
+&amp; = \prod_{k=1}^K \left[\frac{N_k!\cdot\Gamma(\alpha_0)}{\Gamma(N_k+\alpha_0)} \prod_{i=1}^C \frac{\Gamma(Y_{ki} + \alpha_i)}{Y_{ki}!\cdot\Gamma(\alpha_i)}\right],
+\end{split}
+\]</span> from which <span class="math inline">\({\boldsymbol \alpha}\)</span> can be estimated by maximum likelihood <span class="citation">(Minka 2000)</span>. Alternatively we estimate <span class="math inline">\({\boldsymbol \alpha}\)</span> using a Bayesian approach, which is more readily extensible to more complex genotype models, for which <span class="math inline">\(\mathcal L({\boldsymbol \alpha}\mid {\boldsymbol Y})\)</span> has no closed form (see Future Work).</p>
+<p>First, we specify a prior distribution <span class="math display">\[
+\pi(\alpha_0, \bar {\boldsymbol \alpha}) = \frac{1}{(1+ \alpha_0)^2},
+\]</span> which is a uniform distribution on the prior probability vector <span class="math inline">\(\bar {\boldsymbol \alpha}\)</span>, and a uniform distribution on the variance-like parameter <span class="math inline">\(A = (1+\alpha_0)^{-1}\)</span>, in the sense that the prior mean and variance of a given genotype population probability are <span class="math display">\[
+E[\rho_{kj}] = \tilde \alpha_j, \qquad {\textrm{var}}(\rho_{kj}) = A \cdot \tilde \alpha_j(1-\tilde \alpha_j).
+\]</span> Then, we sample from the posterior distribution <span class="math inline">\(p({\boldsymbol \alpha}\mid {\boldsymbol Y}) \propto {\mathcal L}({\boldsymbol \alpha}\mid {\boldsymbol Y}) \pi({\boldsymbol \alpha})\)</span> using a Markov chain Monte Carlo (MCMC) algorithm provided by the <strong>stan</strong> programming language <span class="citation">(Stan Development Team 2016)</span>, as detailed below.</p>
+</div>
+</div>
+<div id="bayesian-hypothesis-testing" class="section level2">
+<h2>Bayesian Hypothesis Testing</h2>
+<p>Under the hierarchical model, the null hypothesis of equal genetic proportions between two populations, say <span class="math inline">\(k = 1,2\)</span>, is <span class="math inline">\(H_0: {\boldsymbol \rho}_1 = {\boldsymbol \rho}_2 = {\boldsymbol \rho}_{12}\)</span>. Our Bayesian hypothesis-testing strategy is implemented in two steps:</p>
+<ol style="list-style-type: decimal">
+<li>Sample from the posterior distribution <span class="math inline">\(p({\boldsymbol \alpha}\mid {\boldsymbol Y}, H_0)\)</span>.</li>
+<li>Sample from the posterior distribution of either classical test statistic, <span class="math inline">\(T = \mathcal X\)</span> or <span class="math inline">\(\Lambda\)</span>, thus obtaining a <em>posterior p-value</em> <span class="math display">\[
+{\textrm{p}_\textrm{v}^{\textrm{post}}}= \textrm{Pr}(T &gt; T_\textrm{obs} \mid {\boldsymbol Y}, H_0).
+\]</span></li>
+</ol>
+<div id="mcmc-sampling-from-the-posterior-distribution" class="section level3">
+<h3>MCMC Sampling from the Posterior Distribution</h3>
+<p>In order to estimate <span class="math inline">\({\boldsymbol \alpha}\)</span> under <span class="math inline">\(H_0\)</span>, we apply the Dirichlet-Multinomial distribution to <span class="math inline">\(K-1\)</span> lakes, with the first two being collapsed into a common count vector <span class="math inline">\({\boldsymbol Y}_{12} = {\boldsymbol Y}_1 + {\boldsymbol Y}_2\)</span> with sample size <span class="math inline">\(N_{12} = N_1 + N_2\)</span>. MCMC sampling is implemented via a Hybrid Monte Carlo (HMC) variant provided by the <strong>R</strong> package <strong>rstan</strong>. In <strong>MADPop</strong>, sampling from <span class="math inline">\(p({\boldsymbol \alpha}\mid {\boldsymbol Y}, H_0)\)</span> is accomplished with the function <code>hUM.post</code>, where “hUM” stands for <em>hierarchical Unconstrained Multinomial</em> model. We start by merging the two samples from equal distributions under <span class="math inline">\(H_0\)</span>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">popId                                   <span class="co"># equal lakes under H0</span></code></pre></div>
+<pre><code>## [1] &quot;Dickey&quot; &quot;Simcoe&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eqId0 &lt;-<span class="st"> </span><span class="kw">paste0</span>(popId, <span class="dt">collapse =</span> <span class="st">&quot;.&quot;</span>)  <span class="co"># merged lake name</span>
+popId0 &lt;-<span class="st"> </span><span class="kw">as.character</span>(fish215$Lake)    <span class="co"># all lake names</span>
+popId0[popId0 %in%<span class="st"> </span>popId] &lt;-<span class="st"> </span>eqId0
+<span class="kw">table</span>(popId0, <span class="dt">dnn =</span> <span class="ot">NULL</span>)               <span class="co"># merged lake counts</span></code></pre></div>
+<pre><code>##       Crystal Dickey.Simcoe         Hogan     Kingscote     Macdonald 
+##            20            40            21            18            19 
+##       Manitou  Michipicoten       Opeongo        Seneca         Slate 
+##            20            20            20            18            19</code></pre>
+<p>Next, we sample from <span class="math inline">\(p({\boldsymbol \alpha}\mid {\boldsymbol Y}, H_0)\)</span> using <strong>rstan</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Id =</span> popId0, fish215[-<span class="dv">1</span>])  <span class="co"># allele data with merged lakes</span>
+
+nsamples &lt;-<span class="st"> </span><span class="fl">1e4</span>
+fit0 &lt;-<span class="st"> </span><span class="kw">hUM.post</span>(<span class="dt">nsamples =</span> nsamples, <span class="dt">X =</span> X0,
+                 <span class="dt">rhoId =</span> eqId0,     <span class="co"># output rho only for merged lakes</span>
+                 <span class="dt">chains =</span> <span class="dv">1</span>,  <span class="co"># next two arguments are passed to rstan</span>
+                 <span class="dt">warmup =</span> <span class="kw">min</span>(<span class="fl">1e4</span>, <span class="kw">floor</span>(nsamples/<span class="dv">10</span>)),
+                 <span class="dt">full.stan.out =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## 
+## SAMPLING FOR MODEL 'DirichletMultinomial' NOW (CHAIN 1).
+## 
+## Chain 1, Iteration:    1 / 10000 [  0%]  (Warmup)
+## Chain 1, Iteration: 1000 / 10000 [ 10%]  (Warmup)
+## Chain 1, Iteration: 1001 / 10000 [ 10%]  (Sampling)
+## Chain 1, Iteration: 2000 / 10000 [ 20%]  (Sampling)
+## Chain 1, Iteration: 3000 / 10000 [ 30%]  (Sampling)
+## Chain 1, Iteration: 4000 / 10000 [ 40%]  (Sampling)
+## Chain 1, Iteration: 5000 / 10000 [ 50%]  (Sampling)
+## Chain 1, Iteration: 6000 / 10000 [ 60%]  (Sampling)
+## Chain 1, Iteration: 7000 / 10000 [ 70%]  (Sampling)
+## Chain 1, Iteration: 8000 / 10000 [ 80%]  (Sampling)
+## Chain 1, Iteration: 9000 / 10000 [ 90%]  (Sampling)
+## Chain 1, Iteration: 10000 / 10000 [100%]  (Sampling)
+##  Elapsed Time: 4.406 seconds (Warm-up)
+##                43.446 seconds (Sampling)
+##                47.852 seconds (Total)
+## 
+## [1] &quot;The following numerical problems occured the indicated number of times after warmup on chain 1&quot;
+##                                                                                                      count
+## Exception thrown at line 70: Exception thrown at line 38: Error in function boost::math::lgamma&lt;doub     1
+## Exception thrown at line 70: Exception thrown at line 38: Error in function boost::math::lgamma&lt;long     1
+## [1] &quot;When a numerical problem occurs, the Hamiltonian proposal gets rejected.&quot;
+## [1] &quot;See http://mc-stan.org/misc/warnings.html#exception-hamiltonian-proposal-rejected&quot;
+## [1] &quot;If the number in the 'count' column is small,  do not ask about this message on stan-users.&quot;</code></pre>
+<p><code>rstan</code> typically throws a number of exceptions which are usually harmless. The <code>MADPop</code> package lists <code>rstan</code> as a dependency, such that its sophisticated tuning mechanism is exposed. Optionally, <code>hUM.post</code> returns the entire <code>rstan</code> output (<code>full.stan.output = TRUE</code>), which can be run through <code>rstan</code>’s MCMC convergence diagnostics.</p>
+<p>By setting the <code>rhoId</code> argument of <code>hUM.post</code>, the <code>fit0</code> object contains samples from <span class="math inline">\(p({\boldsymbol \alpha}, {\boldsymbol \rho}_{12} \mid {\boldsymbol Y}, H_0)\)</span>. Boxplots of the 50 highest posterior probability genotypes in the common distribution <span class="math inline">\({\boldsymbol \rho}_{12}\)</span> are displayed below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rho.post &lt;-<span class="st"> </span>fit0$rho[,<span class="dv">1</span>,]   <span class="co"># p(rho12 | Y)</span>
+<span class="co"># sort genotype counts by decreasing order</span>
+rho.count &lt;-<span class="st"> </span><span class="kw">colSums</span>(Xsuff$tab[popId,])
+rho.ord &lt;-<span class="st"> </span><span class="kw">order</span>(<span class="kw">colMeans</span>(rho.post), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># plot</span>
+nbxp &lt;-<span class="st"> </span><span class="dv">50</span>            <span class="co"># number of genotypes for which to make boxplots</span>
+clrs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#999999&quot;</span>, <span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>, <span class="st">&quot;#009E73&quot;</span>, <span class="st">&quot;#F0E442&quot;</span>, <span class="st">&quot;#0072B2&quot;</span>,
+          <span class="st">&quot;#D55E00&quot;</span>, <span class="st">&quot;#CC79A7&quot;</span>)
+rho.ct &lt;-<span class="st"> </span>rho.count[rho.ord[<span class="dv">1</span>:nbxp]]
+rho.lgd &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">sort</span>(rho.ct))
+rho.box &lt;-<span class="st"> </span>rho.post[,rho.ord[<span class="dv">1</span>:nbxp]]
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="fl">4.5</span>,.<span class="dv">5</span>,.<span class="dv">5</span>)+.<span class="dv">1</span>, <span class="dt">cex.axis =</span> .<span class="dv">7</span>)
+<span class="kw">boxplot</span>(<span class="dt">x =</span> rho.box,
+        <span class="dt">las =</span> <span class="dv">2</span>, <span class="dt">col =</span> clrs[rho.ct<span class="dv">+1</span>], <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> .<span class="dv">2</span>)
+<span class="kw">title</span>(<span class="dt">xlab =</span> <span class="st">&quot;Genotype&quot;</span>, <span class="dt">line =</span> <span class="dv">4</span>)
+<span class="kw">title</span>(<span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">p</span>(<span class="kw">bold</span>(rho)[(<span class="dv">12</span>)]*<span class="st">&quot; | &quot;</span>*<span class="kw">bold</span>(Y))))
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">rev</span>(rho.lgd), <span class="dt">fill =</span> <span class="kw">rev</span>(clrs[rho.lgd<span class="dv">+1</span>]),
+       <span class="dt">title =</span> <span class="st">&quot;Counts&quot;</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">cex =</span> .<span class="dv">8</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="calculating-the-posterior-p-value" class="section level3">
+<h3>Calculating the Posterior P-Value</h3>
+<p>This is calculated analogously to the bootstrapped p-value, by generating <span class="math inline">\(M\)</span> contingency tables with <span class="math inline">\({\boldsymbol Y}_k^{(m)} {\stackrel{\textrm{ind}}{\sim}}\textrm{Multinomial}(N_k, {\boldsymbol \rho}_{12}^{(m)}\)</span>, <span class="math inline">\(m = 1, \ldots, M\)</span>. However, for each contingency table, the common probability vector <span class="math inline">\({\boldsymbol \rho}_{12}^{(m)}\)</span> is different, corresponding to a random draw from <span class="math inline">\(p({\boldsymbol \rho}_{12} \mid {\boldsymbol Y}, H_0)\)</span>. The test statistic <span class="math inline">\(T^{(m)}\)</span> is then calculated and we have <span class="math display">\[
+{\textrm{p}_\textrm{v}^{\textrm{post}}}= \frac 1 M \sum_{m=1}^M \delta(T^{(m)} \ge T_{\textrm{obs}}).
+\]</span> <span class="math inline">\({\textrm{p}_\textrm{v}^{\textrm{post}}}\)</span> is calculated with <strong>MADPop</strong> as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+  T.post &lt;-<span class="st"> </span><span class="kw">UM.eqtest</span>(<span class="dt">N1 =</span> N1, <span class="dt">N2 =</span> N2, <span class="dt">p0 =</span> rho.post, <span class="dt">nreps =</span> <span class="fl">1e4</span>,
+                      <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+})</code></pre></div>
+<pre><code>##    user  system elapsed 
+##    1.42    0.00    1.42</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># posterior p-value</span>
+pv.post &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span class="kw">t</span>(T.post) &gt;=<span class="st"> </span>T.obs)</code></pre></div>
+<p>We can now compare the three types of p-values (asymptotic, bootstrapped, posterior) for each test statistic (<span class="math inline">\(\mathcal X\)</span> and <span class="math inline">\(\Lambda\)</span>):</p>
+<table>
+<caption>p-value (<span class="math inline">\(\times100\%\)</span>)</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Asymptotic</th>
+<th align="right">Bootstrap</th>
+<th align="right">Posterior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\mathcal X\)</span></td>
+<td align="right">33.0</td>
+<td align="right">0.74</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Lambda\)</span></td>
+<td align="right">4.1</td>
+<td align="right">0.69</td>
+<td align="right">13</td>
+</tr>
+</tbody>
+</table>
+<p>We see that <span class="math inline">\({\textrm{p}_\textrm{v}^{\textrm{post}}}\)</span> is much more conservative than <span class="math inline">\({\textrm{p}_\textrm{v}^{\textrm{boot}}}\)</span>.</p>
+</div>
+</div>
+<div id="future-work" class="section level2">
+<h2>Future Work</h2>
+<p>Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on <span class="math inline">\({\boldsymbol \rho}_k\)</span> is that <span class="math inline">\(\rho_{ki} \ge 0\)</span> and <span class="math inline">\(\sum_{i=1}^C \rho_{ki} = 1\)</span>. However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of <span class="math inline">\({\boldsymbol \rho}_k\)</span> below <span class="math inline">\(C-1\)</span>. In this case, the closed-form likelihood <span class="math inline">\({\mathcal L}({\boldsymbol \alpha}\mid {\boldsymbol Y})\)</span> is typically unavailable, but the <strong>stan</strong> code can easily be modified to sample from <span class="math inline">\(p({\boldsymbol \alpha}, {\boldsymbol{\mathcal R}}\mid {\boldsymbol Y})\)</span>, where <span class="math inline">\({\boldsymbol{\mathcal R}}= ({\boldsymbol \rho}_1, \ldots, {\boldsymbol \rho}_K)\)</span>.</p>
+<!-- ```{r, echo = FALSE} -->
+<!-- # kable(as.data.frame(as.list(count0)))   # counts in each lake -->
+<!-- ``` -->
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-minka00">
+<p>Minka, T.P. 2000. “Estimating a Dirichlet Distribution.” <em>Technical Report</em>. Massachusetts Institute of Technology.</p>
+</div>
+<div id="ref-rstan">
+<p>Stan Development Team. 2016. “Rstan: The R Interface to Stan.” <a href="http://mc-stan.org" class="uri">http://mc-stan.org</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
