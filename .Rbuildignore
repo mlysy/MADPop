@@ -3,5 +3,6 @@
 ^setup\.R$
 ^vignettes-old$
 ^vignettes/setup$
-^vignettes/MADPop-*
+^vignettes/MADPop-quicktut_cache$
+^vignettes/MADPop-quicktut_files$
 ^inst/stan/.*.RData$
