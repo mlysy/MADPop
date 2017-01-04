@@ -1,5 +1,7 @@
-#' @title Likelihood ratio test statistic for contingency tables
-#' @description Calculate the likelihood ratio test statistic for general two-way contingency tables.
+#' Likelihood ratio test statistic for contingency tables
+#'
+#' Calculate the likelihood ratio test statistic for general two-way contingency tables.
+#'
 #' @param tab A \code{K x N} matrix (contingency table) of counts. See details.
 #' @return The calculated value of the LRT statistic.
 #' @details The likelihood ratio test statistic is computed as
@@ -9,11 +11,11 @@
 #' That is, the null hypothesis is that each row of the contingency table is drawn from the same multinomial distribution.  If any column has only zeros it is removed before calculating the test statistic.
 #' @examples
 #' # simple contingency table
-#' ctable <- rbind(pop1 = c(5, 3, 0, 3),
+#' ctab <- rbind(pop1 = c(5, 3, 0, 3),
 #'                 pop2 = c(4, 10, 2, 5))
-#' colnames(ctable) <- LETTERS[1:4]
-#' ctable
-#' LRT.stat(ctable) # likelihood ratio statistic
+#' colnames(ctab) <- LETTERS[1:4]
+#' ctab
+#' LRT.stat(ctab) # likelihood ratio statistic
 #' @export
 LRT.stat <- function(tab) {
   K <- nrow(tab) # number of lakes

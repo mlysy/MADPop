@@ -47,9 +47,6 @@ vignette: >
 
 ```{r setup, echo = FALSE, include = FALSE}
 
-#setwd("C:/Users/Peter/Dropbox/test/MADPop")
-#setwd("c:/Users/Jerome/Documents/R/MADPop")
-#pkg.path <- getwd()
 require(knitr)
 require(rmarkdown)
 knitr::opts_chunk$set(cache = FALSE, autodep = FALSE)
@@ -309,7 +306,7 @@ We see that $\pvp$ is much more conservative than $\pvb$.
 
 ## Future Work
 
-Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on $\rr_k$ is that $\rho_{ki} \ge 0$ and $\sum_{i=1}^C \rho_{ki} = 1$.  However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of $\rr_k$ below $C-1$.  In this case, the closed-form likelihood $\LL(\aa \mid \Y)$ is typically unavailable, but the **stan** code can easily be modified to sample from $p(\aa, \RR \mid \Y)$, where $\RR = (\rr_1, \ldots, \rr_K)$.
+Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on $\rr_k$ is that $\rho_{ki} \ge 0$ and $\sum_{i=1}^C \rho_{ki} = 1$.  However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of $\rr_k$ below $C-1$.  In this case, the closed-form likelihood $\LL(\aa \mid \Y)$ is typically unavailable, but the **stan** code can easily be modified to sample from $p(\aa, \RR \mid \Y)$, where $\RR = (\rr_1, \ldots, \rr_K)$.  We hope to feature some of these extensions to the basic Dirichlet-Multinomial model in the next version of **MADPop**.
 
 
 <!-- ```{r, echo = FALSE} -->

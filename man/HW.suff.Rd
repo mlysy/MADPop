@@ -7,9 +7,9 @@
 HW.suff(X, popId, debug = FALSE)
 }
 \arguments{
-\item{X}{Raw allele data.  Either \code{N x 4} matrix with \code{NA}'s indicating duplicates.}
+\item{X}{Genotype adata.  Either a \code{N x 4} matrix with \code{NA}'s indicating duplicates or a \code{N x 5} column data.frame with the first column being the \code{popId}.}
 
-\item{popId}{optional grouping variable for Xg.}
+\item{popId}{grouping variable for \code{X}. Must be supplied if \code{X} has 4 columns.}
 }
 \value{
 A list with elements:
@@ -22,16 +22,17 @@ A list with elements:
 }
 }
 \description{
-Converts a matrix of raw allele data into the quantities needed to describe the corresponding Hardy-Weinberg model.
+Converts a matrix of genotype data into the sufficient statistics required to fit a  Hardy-Weinberg model.
 }
 \examples{
-# Two fish, one with 2 alleles and one with 3
+# Two fish: one with 2 alleles and one with 3
 X <- rbind(c("a", "b", NA, NA), c("c", "a", "d", NA))
-suff <- HW.suff(X)
+suff <- MADPop:::HW.suff(X)
 suff$A # representing all of the unique alleles and 4 is repeated
 suff$G # since there are only 2 unique full genotypes
 suff$Xg # since there is only 1 of each genotype
 suff$H # all possible chromosomes compatible with the observed data
 suff$Y # dataset in simplified numerical format
 }
+\keyword{internal}
 

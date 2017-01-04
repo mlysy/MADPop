@@ -24,10 +24,10 @@ That is, the null hypothesis is that each row of the contingency table is drawn 
 }
 \examples{
 # simple contingency table
-ctable <- rbind(pop1 = c(5, 3, 0, 3),
+ctab <- rbind(pop1 = c(5, 3, 0, 3),
                 pop2 = c(4, 10, 2, 5))
-colnames(ctable) <- LETTERS[1:4]
-ctable
-LRT.stat(ctable) # likelihood ratio statistic
+colnames(ctab) <- LETTERS[1:4]
+ctab
+LRT.stat(ctab) # likelihood ratio statistic
 }
 

@@ -1,11 +1,12 @@
-#' @title Simulate test statistics for two samples from the same Hardy-Weinberg population model.
-#' @description Samples chi-squared and likelihood ratio test statistics two samples from an multinomial distribution constrained to satisfy the Hardy-Weinberg equilibrium.
-#' @param N1 Size of sample 1.
-#' @param N2 Size of sample 2.
+#' Equality tests for two Hardy-Weinberg multinomial samples
+#'
+#' Generate multinomial samples from a common Hardy-Weinberg equilibrium distribution and calculate the Chi-square and Likelihood Ratio test statistics.
+#'
+#' @param N1,N2 Sample sizes.
 #' @param H 2-column matrix of inheritable chromosomes.
 #' @param rho Vector of probabilities for inheritance of each chromosome from either parent.  Can also be a matrix, in which case each simulation randomly draws with replacement from the rows of rho.
 #' @param nreps Number of replications of the simulation.
-#' @return An \code{nreps x 2} matrix with the simulated chi-squared values in the first column and the simulated LRT values in the second.
+#' @return An \code{nreps x 2} matrix with the simulated chi-squared and LR values.
 #' @keywords internal
 HW.eqtest <- function(N1, N2, H, rho, nreps, verbose = TRUE, debug = FALSE) {
   # precomputations

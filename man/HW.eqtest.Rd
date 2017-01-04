@@ -2,14 +2,12 @@
 % Please edit documentation in R/HW.eqtest.R
 \name{HW.eqtest}
 \alias{HW.eqtest}
-\title{Simulate test statistics for two samples from the same Hardy-Weinberg population model.}
+\title{Equality tests for two Hardy-Weinberg multinomial samples}
 \usage{
 HW.eqtest(N1, N2, H, rho, nreps, verbose = TRUE, debug = FALSE)
 }
 \arguments{
-\item{N1}{Size of sample 1.}
-
-\item{N2}{Size of sample 2.}
+\item{N1, N2}{Sample sizes.}
 
 \item{H}{2-column matrix of inheritable chromosomes.}
 
@@ -18,10 +16,10 @@ HW.eqtest(N1, N2, H, rho, nreps, verbose = TRUE, debug = FALSE)
 \item{nreps}{Number of replications of the simulation.}
 }
 \value{
-An \code{nreps x 2} matrix with the simulated chi-squared values in the first column and the simulated LRT values in the second.
+An \code{nreps x 2} matrix with the simulated chi-squared and LR values.
 }
 \description{
-Samples chi-squared and likelihood ratio test statistics two samples from an multinomial distribution constrained to satisfy the Hardy-Weinberg equilibrium.
+Generate multinomial samples from a common Hardy-Weinberg equilibrium distribution and calculate the Chi-square and Likelihood Ratio test statistics.
 }
 \keyword{internal}
 

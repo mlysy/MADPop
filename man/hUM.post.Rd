@@ -2,10 +2,9 @@
 % Please edit documentation in R/hUM.post.R
 \name{hUM.post}
 \alias{hUM.post}
-\title{Posterior draws from a fitted hierarchical Unconstrained-Multinomial model}
+\title{Posterior draws from a hierarchical Unconstrained-Multinomial model}
 \usage{
-hUM.post(nsamples, X, popId, rhoId, full.stan.out = FALSE, ...,
-  debug = FALSE)
+hUM.post(nsamples, X, popId, rhoId, full.stan.out = FALSE, ...)
 }
 \arguments{
 \item{nsamples}{Number of posterior samples}
@@ -14,11 +13,11 @@ hUM.post(nsamples, X, popId, rhoId, full.stan.out = FALSE, ...,
 
 \item{popId}{Optional vector of population identifiers.  See \code{\link{UM.suff}}.}
 
-\item{rhoId}{Populations for which rho probabilities are desired.  Defaults to all populations.  Set \code{rhoId = NULL} not to compute these for any populations.}
+\item{rhoId}{Populations for which posterior samples of the genotype probability vector \code{rho} are desired.  Defaults to all populations.  Set \code{rhoId = NULL} not to output these for any populations.}
 
 \item{full.stan.out}{Logical.  Whether or not to return the full \code{stan} output.  For monitoring convergence of the MCMC sampling.}
 
-\item{...}{Further arguments to be passed to \code{stan}.}
+\item{...}{Further arguments to be passed to the \code{\link[rstan]{sampling}} function in \pkg{rstan}.}
 }
 \value{
 A list with elements
@@ -33,8 +32,13 @@ A list with elements
 MCMC sampling from a Dirichlet-Multinomial model using \code{\link[rstan]{stan}}.
 }
 \details{
-The model is given by
-\deqn{Y_k \sim_{ind} \emph{Multin}(\rho_k, N_k), \qquad \rho_k \sim_{iid} \emph{Dir}(\alpha), \qquad (\bar \alpha, \alpha_0) \sim 1/(1+\alpha_0)^2.}
+The hierarchical Dirichlet-Multinomial model is given by
+\deqn{Y_k \sim_{\textrm{ind}} \textrm{Multinomial}(\rho_k, N_k), \qquad \rho_k \sim_{\textrm{iid}} \textrm{Dirichlet}(\alpha).}
+A posterior distribution is obtained by specifying the prior
+\deqn{
+(\bar \alpha, \alpha_0) \sim 1/(1+\alpha_0)^2,
+}
+where \eqn{\alpha_0 = \sum_{i=1}^C \alpha_i} and \eqn{\bar \alpha = \alpha/\alpha_0}.  MCMC sampling is achieved with the \pkg{rstan} package, which is listed as a dependency for \pkg{MADPop} so as to expose \pkg{rstan}'s sophisticated tuning mechanism and convergence diagnostics.
 }
 \examples{
 # fit hierarchical model to fish215 data
@@ -45,9 +49,9 @@ nsamples <- 500
 hUM.fit <- hUM.post(nsamples = nsamples, X = fish215,
                     rhoId = rhoId,
                     chains = 1) # number of MCMC chains
-rho.post <- hUM.fit$rho[,1,] # convert 3-d array to 2-d matrix
 
 # plot first 20 posterior probabilities in lake Simcoe
+rho.post <- hUM.fit$rho[,1,]
 boxplot(rho.post[,1:20], las = 2,
         xlab = "Genotype", ylab = "Posterior Probability",
         pch = ".", col = "grey")

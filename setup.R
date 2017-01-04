@@ -2,7 +2,7 @@
 # won't be included in bundled version.
 
 require(devtools)
-# require(roxygen2)
+#require(roxygen2)
 require(knitr)
 require(rmarkdown)
 require(rstan)
@@ -24,6 +24,9 @@ install(pkg.path) # install
 
 # optionally, to produce the .tar.gz that can be distributed
 build(pkg.path)
+
+# check...
+check(pkg.path)
 
 #--- vignette updating ----------------------------------------------------------
 # check vignette

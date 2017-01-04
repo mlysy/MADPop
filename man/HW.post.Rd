@@ -2,7 +2,7 @@
 % Please edit documentation in R/HW.post.R
 \name{HW.post}
 \alias{HW.post}
-\title{Posterior draws from a fitted Hardy-Weinberg model}
+\title{Posterior inference for Hardy-Weinberg model}
 \usage{
 HW.post(nsamples, X, full.stan.out = FALSE, ...)
 }
@@ -21,7 +21,11 @@ A list with elements
   \item \code{A}: The unique allele names.
   \item \code{H}: The 2-column matrix potential chromosomes.
   \item \code{rho}: A matrix with \code{ncol(rho) == nrow(H)}, where each row is a draw from the posterior distribution of inheritance probabilities.
-  \item \code{sfit}: If \code{full.stan.out = TRUE}, the fitted Stan object.
+  \item \code{sfit}: If \code{full.stan.out = TRUE}, the fitted \code{stan} object.
 }
 }
+\description{
+MCMC sampling from the posterior parameter distribution of a Hardy-Weinberg model using \pkg{rstan}.
+}
+\keyword{internal}
 

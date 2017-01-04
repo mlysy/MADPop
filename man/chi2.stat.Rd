@@ -13,7 +13,7 @@ chi2.stat(tab)
 The calculated value of the chi-squared statistic.
 }
 \description{
-Calculates the chi-squared test statistic for general two-way contingency tables.
+Calculates the chi-squared test statistic for a two-way contingency table.
 }
 \details{
 The chi-squared test statistic is computed as
@@ -24,10 +24,10 @@ That is, the null hypothesis is that each row of the contingency table is drawn 
 }
 \examples{
 # simple contingency table
-ctable <- rbind(pop1 = c(5, 3, 0, 3),
+ctab <- rbind(pop1 = c(5, 3, 0, 3),
                 pop2 = c(4, 10, 2, 5))
-colnames(ctable) <- LETTERS[1:4]
-ctable
-chi2.stat(ctable) # chi^2 statistic
+colnames(ctab) <- LETTERS[1:4]
+ctab
+chi2.stat(ctab) # chi^2 test statistic
 }
 

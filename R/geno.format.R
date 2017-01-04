@@ -1,10 +1,17 @@
-# format a 4-column genotype matrix or data.frame into a simplified numerical format
-# X is the genotype matrix or data.frame
-# Y is a 4-column numeric matrix.  Each row is sorted with zeros indicating missing alleles.
-# other optional output (Y.only = FALSE) is:
-# A: conversion between allele names and allele numerical identifiers
-# G: unique allele combinations, i.e. Y without duplicated rows
-geno.format <- function(X, Y.only = TRUE, debug = FALSE) {
+#' Format genotype matrix
+#'
+#' Convert a 4-column genotype matrix or data.frame into a simplified numerical format.
+#'
+#' @param X Genotype matrix or data.frame.
+#' @param Y.only Logical.  Whether or not to output only \code{Y} (see return).
+#' @return A list with elements
+#' \itemize{
+#' \code{Y}: A 4-column numeric matrix.  Each row is sorted with zeros indicating missing alleles.
+#' \code{A}: Vector of allele names.
+#' \code{G}: Unique allele combinations, i.e. \code{Y} without duplicated rows.
+#' }
+#' @keywords internal
+geno.format <- function(X, Y.only = TRUE) {
   # convert to numeric
   Y <- as.matrix(X)
   if(!is.numeric(Y)) {
@@ -12,7 +19,7 @@ geno.format <- function(X, Y.only = TRUE, debug = FALSE) {
       stop("Cannot supply both empty character and NA.")
     }
     Y[Y == ""] <- NA
-    if(debug) browser()
+    #if(debug) browser()
     A <- factor(Y)
     Y <- matrix(as.numeric(A), ncol = 4)
     A <- levels(A)

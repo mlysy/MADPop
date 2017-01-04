@@ -12,7 +12,7 @@
 
 <meta name="author" content="Martin Lysy, Wookjung P. Kim, Terin Robinson" />
 
-<meta name="date" content="2016-12-21" />
+<meta name="date" content="2016-12-23" />
 
 <title>Bayesian Testing of Equal Genotype Proportions between Multiple Populations</title>
 
@@ -71,7 +71,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Bayesian Testing of Equal Genotype Proportions between Multiple Populations</h1>
 <h4 class="author"><em>Martin Lysy, Wookjung P. Kim, Terin Robinson</em></h4>
-<h4 class="date"><em>2016-12-21</em></h4>
+<h4 class="date"><em>2016-12-23</em></h4>
 
 
 
@@ -83,12 +83,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Our dataset <code>fish215</code> is included with <strong>MADPop</strong>. A random sample from it looks like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(fish215[<span class="kw">sample</span>(nObs),])</code></pre></div>
 <pre><code>##             Lake  A1  A2  A3  A4
-## 28        Simcoe r.3            
-## 63  Michipicoten         u.2 r.1
-## 69  Michipicoten r.5 r.7 r.4 r.1
-## 88       Opeongo     r.5 r.4 r.2
-## 16         Hogan             r.4
-## 161    Kingscote r.5</code></pre>
+## 159      Manitou     v.8        
+## 10         Hogan     r.5 r.4    
+## 135       Dickey y.8     r.4    
+## 77  Michipicoten x.6 r.4        
+## 139       Dickey y.7     y.5 r.4
+## 214       Seneca u.4 t.6     w.7</code></pre>
 <p>The first column is the lake name (or population ID) for each sample, the remaining four columns are for potentially recorded allele codes (<code>A1</code>-<code>A4</code>). Here the code to identify a unique allele is a small letter followed by a number, but it could have been the sequence of integers <span class="math inline">\(1, 2,\ldots, A\)</span>, which for the <code>fish215</code> data is <span class="math inline">\(A = 57\)</span> unique alleles.</p>
 <p>It is relatively straightforward to import a CSV file into the format above. An example of this is given along with our raw data in the <strong>extdata</strong> directory of the local copy of the <strong>MADPop</strong> package.</p>
 </div>
@@ -164,12 +164,12 @@ rho.hat &lt;-<span class="st"> </span><span class="kw">colSums</span>(ctab)/(N1+
                       <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##    0.95    0.00    0.96</code></pre>
+##    0.97    0.02    0.98</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bootstrap p-value</span>
 pv.boot &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span class="kw">t</span>(T.boot) &gt;=<span class="st"> </span>T.obs)
 <span class="kw">signif</span>(pv.boot, <span class="dv">2</span>)</code></pre></div>
 <pre><code>##   chi2    LRT 
-## 0.0074 0.0069</code></pre>
+## 0.0072 0.0068</code></pre>
 <p>Note that the bootstrap <span class="math inline">\(p\)</span>-values for both tests are roughly the same and decisively reject <span class="math inline">\(H_0\)</span>, whereas the less reliable asymptotic <span class="math inline">\(p\)</span>-values both failed to reject (at quite different significance levels).</p>
 </div>
 </div>
@@ -302,7 +302,7 @@ rho.box &lt;-<span class="st"> </span>rho.post[,rho.ord[<span class="dv">1</span
                       <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 })</code></pre></div>
 <pre><code>##    user  system elapsed 
-##    1.42    0.00    1.42</code></pre>
+##    1.46    0.00    1.46</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># posterior p-value</span>
 pv.post &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span class="kw">t</span>(T.post) &gt;=<span class="st"> </span>T.obs)</code></pre></div>
 <p>We can now compare the three types of p-values (asymptotic, bootstrapped, posterior) for each test statistic (<span class="math inline">\(\mathcal X\)</span> and <span class="math inline">\(\Lambda\)</span>):</p>
@@ -320,13 +320,13 @@ pv.post &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span cla
 <tr class="odd">
 <td align="left"><span class="math inline">\(\mathcal X\)</span></td>
 <td align="right">33.0</td>
-<td align="right">0.74</td>
+<td align="right">0.72</td>
 <td align="right">14</td>
 </tr>
 <tr class="even">
 <td align="left"><span class="math inline">\(\Lambda\)</span></td>
 <td align="right">4.1</td>
-<td align="right">0.69</td>
+<td align="right">0.68</td>
 <td align="right">13</td>
 </tr>
 </tbody>
@@ -336,7 +336,7 @@ pv.post &lt;-<span class="st"> </span><span class="kw">rowMeans</span>(<span cla
 </div>
 <div id="future-work" class="section level2">
 <h2>Future Work</h2>
-<p>Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on <span class="math inline">\({\boldsymbol \rho}_k\)</span> is that <span class="math inline">\(\rho_{ki} \ge 0\)</span> and <span class="math inline">\(\sum_{i=1}^C \rho_{ki} = 1\)</span>. However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of <span class="math inline">\({\boldsymbol \rho}_k\)</span> below <span class="math inline">\(C-1\)</span>. In this case, the closed-form likelihood <span class="math inline">\({\mathcal L}({\boldsymbol \alpha}\mid {\boldsymbol Y})\)</span> is typically unavailable, but the <strong>stan</strong> code can easily be modified to sample from <span class="math inline">\(p({\boldsymbol \alpha}, {\boldsymbol{\mathcal R}}\mid {\boldsymbol Y})\)</span>, where <span class="math inline">\({\boldsymbol{\mathcal R}}= ({\boldsymbol \rho}_1, \ldots, {\boldsymbol \rho}_K)\)</span>.</p>
+<p>Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on <span class="math inline">\({\boldsymbol \rho}_k\)</span> is that <span class="math inline">\(\rho_{ki} \ge 0\)</span> and <span class="math inline">\(\sum_{i=1}^C \rho_{ki} = 1\)</span>. However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of <span class="math inline">\({\boldsymbol \rho}_k\)</span> below <span class="math inline">\(C-1\)</span>. In this case, the closed-form likelihood <span class="math inline">\({\mathcal L}({\boldsymbol \alpha}\mid {\boldsymbol Y})\)</span> is typically unavailable, but the <strong>stan</strong> code can easily be modified to sample from <span class="math inline">\(p({\boldsymbol \alpha}, {\boldsymbol{\mathcal R}}\mid {\boldsymbol Y})\)</span>, where <span class="math inline">\({\boldsymbol{\mathcal R}}= ({\boldsymbol \rho}_1, \ldots, {\boldsymbol \rho}_K)\)</span>. We hope to feature some of these extensions to the basic Dirichlet-Multinomial model in the next version of <strong>MADPop</strong>.</p>
 <!-- ```{r, echo = FALSE} -->
 <!-- # kable(as.data.frame(as.list(count0)))   # counts in each lake -->
 <!-- ``` -->

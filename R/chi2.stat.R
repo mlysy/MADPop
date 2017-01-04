@@ -1,5 +1,6 @@
-#' @title Chi-squared test statistic for contingency tables
-#' @description Calculates the chi-squared test statistic for general two-way contingency tables.
+#' Chi-squared test statistic for contingency tables
+#'
+#' Calculates the chi-squared test statistic for a two-way contingency table.
 #' @param tab A \code{K x N} matrix (contingency table) of counts. See details.
 #' @return The calculated value of the chi-squared statistic.
 #' @details The chi-squared test statistic is computed as
@@ -9,11 +10,11 @@
 #' That is, the null hypothesis is that each row of the contingency table is drawn from the same multinomial distribution.  If any column has only zeros it is removed before calculating the test statistic.
 #' @examples
 #' # simple contingency table
-#' ctable <- rbind(pop1 = c(5, 3, 0, 3),
+#' ctab <- rbind(pop1 = c(5, 3, 0, 3),
 #'                 pop2 = c(4, 10, 2, 5))
-#' colnames(ctable) <- LETTERS[1:4]
-#' ctable
-#' chi2.stat(ctable) # chi^2 statistic
+#' colnames(ctab) <- LETTERS[1:4]
+#' ctab
+#' chi2.stat(ctab) # chi^2 test statistic
 #' @export
 chi2.stat <- function(tab) {
   N <- rowSums(tab) # number of fish in each lake

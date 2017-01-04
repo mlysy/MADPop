@@ -1,15 +1,16 @@
-# Internal function
-# convert HW sufficient statistics to STAN input
-# input is the result of a cal to HW.suff
-# output is a list with the following elements:
-# \enumerate{
-#  \item \code{nG}: number of nonzero full genotype observations
-#  \item \code{nH}: number of nonzero inherited genotype observations
-#  \item \code{Xg}: counts in each unique genotype from observed data
-#  \item \code{Hg}: full genotype information - for each genotype, list all inherited genotypes \code{H} for each parent (unordered), at most 6 per genotype
-#  \item \code{nHg}: absolute value of \code{Hg} for each observed genotype
-# }
-# NOTE: The potential chromosomes in the observed data can produce more genotypes than are found in the observed data, in which case an observation with 0 counts is added to the group of all these unobserved counts.
+#' Convert Hardy-Weinberg sufficient statistics to \pkg{rstan} Input
+#'
+#' @param suff Result of a call to \code{\link{HW.suff}}.
+#' @return a list with the following elements:
+#' \itemize{
+#'  \item \code{nG}: number of nonzero full genotype observations
+#'  \item \code{nH}: number of nonzero inherited genotype observations
+#'  \item \code{Xg}: counts in each unique genotype from observed data
+#'  \item \code{Hg}: full genotype information - for each genotype, list all inherited genotypes \code{H} for each parent (unordered), at most 6 per genotype
+#'  \item \code{nHg}: absolute value of \code{Hg} for each observed genotype
+#' }
+#' @details The potential chromosomes in the observed data can produce more genotypes than are found in the observed data, in which case an observation with 0 counts is added to the group of all these unobserved counts.
+#' @keywords internal
 HW.data <- function(suff, debug = FALSE) {
   nG <- nrow(suff$G)
   H <- t(suff$H)

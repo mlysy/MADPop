@@ -7,13 +7,17 @@
 HW.sim(N, H, rho)
 }
 \arguments{
-\item{N}{Integer number of observations to draw.}
+\item{N}{Number of samples to draw.}
 
-\item{H}{2-column matrix of possible chromosomes}
+\item{H}{2-column matrix of possible chromosomes.}
 
 \item{rho}{vector of the same length as \code{H} giving the probability of inheriting each chromosome in H from either parent.}
 }
 \value{
 An \code{N x 4} matrix giving the unique alleles for each observation.  0's indicate the presence of less than 4 alleles or duplicates.
 }
+\description{
+Generate genotype data from a 4-allele Hardy-Weinberg model.
+}
+\keyword{internal}
 

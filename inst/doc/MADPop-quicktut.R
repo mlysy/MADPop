@@ -1,8 +1,5 @@
 ## ----setup, echo = FALSE, include = FALSE--------------------------------
 
-#setwd("C:/Users/Peter/Dropbox/test/MADPop")
-#setwd("c:/Users/Jerome/Documents/R/MADPop")
-#pkg.path <- getwd()
 require(knitr)
 require(rmarkdown)
 knitr::opts_chunk$set(cache = FALSE, autodep = FALSE)

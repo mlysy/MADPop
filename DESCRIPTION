@@ -1,19 +1,13 @@
 Package: MADPop
 Type: Package
-Title: (MA)jor Histocompatibility Complex-Based (D)ifferentiation between (Pop)ulations
-Version: 0.0.0.9005
-Date: 2016-02-10
+Title: (M)HC (A)llele-Based (D)ifferencing between (Pop)ulations
+Version: 0.9.0.9001
+Date: 2016-12-22
 Authors@R: c(person("Martin", "Lysy", role = c("cre", "aut"),
                     email = "mlysy@uwaterloo.ca"),
              person("Peter W.J.", "Kim", role = "aut"),
 	     person("Terin", "Robinson", role = "ctb"))
-Maintainer: Martin Lysy <mlysy@uwaterloo.ca>
-Description: Tools for the analysis of two models for fish populations with a
-    variable number of alleles (2 to 4). One implements the basic Hardy-Weinberg
-    equilibrium and the other, a random effects model which pools over ecologically
-    similar sampling environments. Parameters are estimated using efficient Bayesian
-    posterior sampling algorithms as implemented in stan. Bootstrapped p-value
-    estimates for tests of equality between populations are also provided.
+Description: Tools for the analysis of genotype differences between fish samples having a variable number of alleles (1-4) recorded in the Major Histocompatibility Complex (MHC) of the genome.  A hierarchical Dirichlet-Multinomial model on the genotype counts is used to pool small sample sizes from multiple populations for pairwise tests of equality.  Bayesian inference is implemented via the rstan package.  Bootstrapped and posterior p-values are provided for chi-squared and likelihood ratio tests of equal genotype probabilities.
 Depends:
     R (>= 3.0.0),
     rstan

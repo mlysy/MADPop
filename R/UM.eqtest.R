@@ -1,38 +1,40 @@
-#' @title Simulate test statistics for two samples of individuals from the same multinomial population.
-#' @description Samples chi-squared and likelihood ratio test statistics two samples from an unconstrained multinomial distribution.
+#' Equality tests for two multinomial samples
+#'
+#' Generate multinomial samples from a common probability vector and calculate the Chi-square and Likelihood Ratio test statistics.
+#'
 #' @param N1 Size of sample 1.
 #' @param N2 Size of sample 2.
 #' @param p0 Common probability vector from which to draw the multinomial samples.  Can also be a matrix, in which case each simulation randomly draws with replacement from the rows of p0.
 #' @param nreps Number of replications of the simulation.
-#' @details The chi-squared and likelihood ratio test statistics are calculated from multinomial samples \eqn{((Y_1^1, Y_2^1), \ldots, (Y_1^M, Y_2^M))}, where
-#' \deqn{Y_k^m \sim \emph{Multin}(N_k, p_0^m,}
+#' @param verbose Logical.  If \code{TRUE} prints message every \code{5000} replications.
+#' @details The chi-squared and likelihood ratio test statistics are calculated from multinomial samples \eqn{(Y_1^1, Y_2^1), \ldots, (Y_1^M, Y_2^M)}, where
+#' \deqn{Y_k^m \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(N_k, p_0^m),}
 #' where \eqn{p_0^m} is the \eqn{m}th row of \code{p0}.
-#' @return An \code{nreps x 2} matrix with the simulated chi-squared values in the first column and the simulated LRT values in the second.
+#' @return An \code{nreps x 2} matrix with the simulated chi-squared and LR values.
 #' @examples
 #' # bootstrapped p-value calculation against equal genotype proportions
 #' # in lakes Michipicoten and Simcoe
 #'
 #' # contingency table
-#' lnames <- c("Michipicoten", "Simcoe")
-#' ctable <- UM.suff(fish215[fish215$Lake %in% lnames,])$tab
-#' ctable
+#' popId <- c("Michipicoten", "Simcoe")
+#' ctab <- UM.suff(fish215[fish215$Lake %in% popId,])$tab
+#' ctab
 #'
 #' # MLE of probability vector
-#' p.MLE <- colSums(ctable)/sum(ctable)
+#' p.MLE <- colSums(ctab)/sum(ctab)
 #' # sample sizes
-#' N1 <- sum(ctable[1,]) # Michipicoten
-#' N2 <- sum(ctable[2,]) # Simcoe
+#' N1 <- sum(ctab[1,]) # Michipicoten
+#' N2 <- sum(ctab[2,]) # Simcoe
 #'
 #' # bootstrapped test statistics (chi^2 and LRT)
 #' T.boot <- UM.eqtest(N1 = N1, N2 = N2, p0 = p.MLE, nreps = 1e3)
 #'
 #' # observed test statistics
-#' T.obs <- c(chi2 = chi2.stat(ctable), LRT = LRT.stat(ctable))
+#' T.obs <- c(chi2 = chi2.stat(ctab), LRT = LRT.stat(ctab))
 #' # p-values
-#' mean(T.boot[,"chi2"] > T.obs["chi2"]) # p-value of chi^2 test
-#' mean(T.boot[,"LRT"] > T.obs["LRT"]) # p-value of likelihood ratio test
+#' rowMeans(t(T.boot) > T.obs)
 #' @export
-UM.eqtest <- function(N1, N2, p0, nreps, verbose = TRUE, debug = FALSE) {
+UM.eqtest <- function(N1, N2, p0, nreps, verbose = TRUE) {
   N <- N1+N2
   P0 <- p0
   if(is.matrix(P0)) {

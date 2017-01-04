@@ -1,7 +1,8 @@
-#' @title Sufficient statistics for the Hardy-Weinberg model
-#' @description Converts a matrix of raw allele data into the quantities needed to describe the corresponding Hardy-Weinberg model.
-#' @param X Raw allele data.  Either \code{N x 4} matrix with \code{NA}'s indicating duplicates.
-#' @param popId optional grouping variable for Xg.
+#' Sufficient statistics for the Hardy-Weinberg model
+#'
+#' Converts a matrix of genotype data into the sufficient statistics required to fit a  Hardy-Weinberg model.
+#' @param X Genotype adata.  Either a \code{N x 4} matrix with \code{NA}'s indicating duplicates or a \code{N x 5} column data.frame with the first column being the \code{popId}.
+#' @param popId grouping variable for \code{X}. Must be supplied if \code{X} has 4 columns.
 #' @return A list with elements:
 #' \itemize{
 #' \item \code{A}: Vector of unique alleles names.  The allele numbers in the following quantities correspond to the indices of \code{A}.
@@ -11,14 +12,15 @@
 #' \item \code{Y}: Observed data in a simplified numerical format.  That is, all allele labels are given unique positive-integer identifiers and missing or duplicated alleles are represented by 0's.
 #' }
 #' @examples
-#' # Two fish, one with 2 alleles and one with 3
+#' # Two fish: one with 2 alleles and one with 3
 #' X <- rbind(c("a", "b", NA, NA), c("c", "a", "d", NA))
-#' suff <- HW.suff(X)
+#' suff <- MADPop:::HW.suff(X)
 #' suff$A # representing all of the unique alleles and 4 is repeated
 #' suff$G # since there are only 2 unique full genotypes
 #' suff$Xg # since there is only 1 of each genotype
 #' suff$H # all possible chromosomes compatible with the observed data
 #' suff$Y # dataset in simplified numerical format
+#' @keywords internal
 HW.suff <- function(X, popId, debug = FALSE) {
   if(ncol(X) != 4) {
     stop("X must be a matrix or data.frame with 4 columns.")

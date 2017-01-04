@@ -4,10 +4,10 @@
 \alias{UM.suff}
 \title{Sufficient statistics for the Unconstrained Multinomial model}
 \usage{
-UM.suff(X, popId, debug = FALSE)
+UM.suff(X, popId)
 }
 \arguments{
-\item{X}{Raw allele data.  Either a \code{N x 4} matrix with \code{NA}'s indicating duplicates or a \code{N x 5} column data.frame with the first column being the \code{popId}.}
+\item{X}{Genotype adata.  Either a \code{N x 4} matrix with \code{NA}'s indicating duplicates or a \code{N x 5} column data.frame with the first column being the \code{popId}.}
 
 \item{popId}{grouping variable for \code{X}. Must be supplied if \code{X} has 4 columns.}
 }
@@ -20,16 +20,16 @@ A list with elements:
 }
 }
 \description{
-Converts a matrix of raw allele data into the quantities needed to describe the corresponding Hardy-Weinberg model.
+Converts a matrix or data.frame of genotype data into the sufficient statistics required to fit a Dirichlet-Multinomial hierarchical model.
 }
 \examples{
-# Summary of data in lakes Michipicoten and Simcoe
+# sufficient statistics in 3 lakes
 
-X <- fish215[fish215$Lake \%in\% c("Michipicoten", "Simcoe"),]
+X <- fish215[fish215$Lake \%in\% c("Hogan", "Manitou", "Simcoe"),]
 suff <- UM.suff(X)
 
-suff$A
-suff$G
-suff$tab
+suff$A # allele names
+suff$G # unique genotypes
+suff$tab # contingency table
 }
 
