@@ -3,4 +3,5 @@
 ^setup\.R$
 ^vignettes-old$
 ^vignettes/setup$
+^vignettes/MADPop-*
 ^inst/stan/.*.RData$
