@@ -86,6 +86,17 @@ popId0 <- as.character(fish215$Lake)    # all lake names
 popId0[popId0 %in% popId] <- eqId0
 table(popId0, dnn = NULL)               # merged lake counts
 
+## ----stan, cache = TRUE--------------------------------------------------
+X0 <- cbind(Id = popId0, fish215[-1])  # allele data with merged lakes
+
+nsamples <- 1e4
+fit0 <- hUM.post(nsamples = nsamples, X = X0,
+                 rhoId = eqId0,     # output rho only for merged lakes
+                 chains = 1,  # next two arguments are passed to rstan
+                 warmup = min(1e4, floor(nsamples/10)),
+                 full.stan.out = FALSE)
+
+
 ## ----setup3, ref.label = "bxp", echo = FALSE, fig.keep = "none"----------
 rho.post <- fit0$rho[,1,]   # p(rho12 | Y)
 # sort genotype counts by decreasing order
