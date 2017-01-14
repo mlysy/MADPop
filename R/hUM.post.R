@@ -1,4 +1,4 @@
-#' Posterior draws from a hierarchical Unconstrained-Multinomial model
+#' Posterior sampling from a hierarchical Unconstrained-Multinomial model
 #'
 #' MCMC sampling from a Dirichlet-Multinomial model using \code{\link[rstan]{stan}}.
 #'

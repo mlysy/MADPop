@@ -1,4 +1,4 @@
-#' Sufficient statistics for the Unconstrained Multinomial model
+#' Sufficient statistics for the Unconstrained-Multinomial model
 #'
 #' Converts a matrix or data.frame of genotype data into the sufficient statistics required to fit a Dirichlet-Multinomial hierarchical model.
 #'
