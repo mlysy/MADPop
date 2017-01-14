@@ -1,4 +1,3 @@
 *.Rhistory
 *.o
 *.dll
-/inst/stan/MADPop-stan.RData
