@@ -1,4 +1,4 @@
 *.Rhistory
 *.o
 *.dll
-^inst/stan/.*.RData$
+^inst/stan/*.RData$
