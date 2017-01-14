@@ -24,11 +24,11 @@ pkg.name <- "MADPop"
 pkg.name <- paste0(pkg.name, "-stan.RData")
 
 # stan names, without extension.  obtained from inst/stan
-stan.names <- c("DirichletMultinomial", "HardyWeinberg")
+stan.names <- c("DirichletMultinomial")
 
 # R names. obtained from [[devtools.stan::export]] tags
 # the stan code will be compiled into stanmodel objects with these names.
-R.names <- c("hUM.mod", "HW.mod")
+R.names <- c("hUM.mod")
 
 
 #--- compile models -------------------------------------------------------------

@@ -1,8 +1,6 @@
 // STAN model for Hardy-Weinberg with variable/unobserved allele counts
 // {mlysy,pwjkim}@uwaterloo.ca, november 2014
 
-//[[devtools.stan::export("HW.mod")]]
-
 data {
   int<lower=1> nG; // number of observed  genotype categories
   int<lower=1> nH; // number of inherited genotype categories

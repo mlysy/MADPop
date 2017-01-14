@@ -15,7 +15,7 @@
 functions {
   // unnormalized dirichlet-multinomial distribution
   // (for likelihood only)
-  real dirichlet_multinomial_log(int[] x, vector eta) {
+  real dirichlet_multinomial_lpmf(int[] x, vector eta) {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
@@ -25,7 +25,7 @@ functions {
   }
   // same thing but vectorized, i.e. accepts matrix X
   // current bug prevents overloading...
-  real Dirichlet_Multinomial_log(int[,] X, vector eta) {
+  real Dirichlet_Multinomial_lpmf(int[,] X, vector eta) {
     int D[2];
     real ans;
     real seta;
