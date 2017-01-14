@@ -15,10 +15,6 @@ pkg.name <- "MADPop"
 
 document(pkg.path) # updates documentation
 
-# run this when you want to "compile" the vignette
-# will then be visible when you install but takes longer
-build_vignettes(pkg = pkg.path)
-
 install(pkg.path) # install
 # always quit and restart R after this step.
 
@@ -27,6 +23,11 @@ build(pkg.path)
 
 # check...
 check(pkg.path)
+
+# run this when you want to "compile" the vignette
+# will then be visible when you install but takes longer
+build_vignettes(pkg = pkg.path)
+
 
 #--- vignette updating ----------------------------------------------------------
 # check vignette

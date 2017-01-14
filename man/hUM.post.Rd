@@ -2,7 +2,7 @@
 % Please edit documentation in R/hUM.post.R
 \name{hUM.post}
 \alias{hUM.post}
-\title{Posterior draws from a hierarchical Unconstrained-Multinomial model}
+\title{Posterior sampling from a hierarchical Unconstrained-Multinomial model}
 \usage{
 hUM.post(nsamples, X, popId, rhoId, full.stan.out = FALSE, ...)
 }

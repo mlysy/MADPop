@@ -2,7 +2,7 @@
 % Please edit documentation in R/UM.suff.R
 \name{UM.suff}
 \alias{UM.suff}
-\title{Sufficient statistics for the Unconstrained Multinomial model}
+\title{Sufficient statistics for the Unconstrained-Multinomial model}
 \usage{
 UM.suff(X, popId)
 }
