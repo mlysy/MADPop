@@ -11,17 +11,22 @@
 #' @return A list with elements
 #' \itemize{
 #'   \item \code{A}: The unique allele names.
-#'   \item \code{G}: The 4-column matrix of unique genotype combinations.
+#'   \item \code{G}: The 4-column matrix Package libcurl was not found in the pkg-config search path.of unique genotype combinations.
 #'   \item \code{rho}: A matrix with \code{ncol(rho) == nrow(G)}, where each row is a draw from the posterior distribution of inheritance probabilities.
 #'   \item \code{sfit}: If \code{full.stan.out = TRUE}, the fitted \code{stan} object.
 #' }
 #' @details The hierarchical Dirichlet-Multinomial model is given by
-#' \deqn{Y_k \sim_{\textrm{ind}} \textrm{Multinomial}(\rho_k, N_k), \qquad \rho_k \sim_{\textrm{iid}} \textrm{Dirichlet}(\alpha).}
-#' A posterior distribution is obtained by specifying the prior
 #' \deqn{
-#' (\bar \alpha, \alpha_0) \sim 1/(1+\alpha_0)^2,
+#'   Y_k \mid \rho_k \sim_{\textrm{ind}} \textrm{Multinomial}(\rho_k, N_k),
+#' }{
+#'   Y_k | \rho_k ~ind Multinomial(\rho_k, N_k),
 #' }
-#' where \eqn{\alpha_0 = \sum_{i=1}^C \alpha_i} and \eqn{\bar \alpha = \alpha/\alpha_0}.  MCMC sampling is achieved with the \pkg{rstan} package, which is listed as a dependency for \pkg{MADPop} so as to expose \pkg{rstan}'s sophisticated tuning mechanism and convergence diagnostics.
+#' \deqn{
+#'   \rho_k \sim_{\textrm{iid}} \textrm{Dirichlet}(\alpha).
+#' }{
+#'   \rho_k ~iid Dirichlet(\alpha).
+#' }
+#' where \eqn{\alpha_0 = \sum_{i=1}^C \alpha_i} and \eqn{\bar \alpha = \alpha/\alpha_0}{\alpha_bar = \alpha/\alpha_0}.  MCMC sampling is achieved with the \pkg{rstan} package, which is listed as a dependency for \pkg{MADPop} so as to expose \pkg{rstan}'s sophisticated tuning mechanism and convergence diagnostics.
 #' @examples
 #' # fit hierarchical model to fish215 data
 #'

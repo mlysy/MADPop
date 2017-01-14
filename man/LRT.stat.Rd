@@ -7,7 +7,7 @@
 LRT.stat(tab)
 }
 \arguments{
-\item{tab}{A \code{K x N} matrix (contingency table) of counts. See details.}
+\item{tab}{A \code{K x C} matrix (contingency table) of counts. See details.}
 }
 \value{
 The calculated value of the LRT statistic.
@@ -16,11 +16,13 @@ The calculated value of the LRT statistic.
 Calculate the likelihood ratio test statistic for general two-way contingency tables.
 }
 \details{
-The likelihood ratio test statistic is computed as
-\deqn{2 \sum_{i=1}^K \sum_{j=1}^N O_{ij} \log(p^A_{ij}/p^0_{j}),}
-where \eqn{O_{ij} = \code{tab[i,j]}}, \eqn{p^A_{ij} = \code{tab[i,j]/sum(tab)}}, and
-\deqn{p^0_j = \code{sum(tab[,j])/sum(tab)}.}
-That is, the null hypothesis is that each row of the contingency table is drawn from the same multinomial distribution.  If any column has only zeros it is removed before calculating the test statistic.
+Suppose that \code{tab} consists of counts from \eqn{K} populations (rows) in \eqn{C} categories.  The likelihood ratio test statistic is computed as
+\deqn{
+  2 \sum_{i=1}^K \sum_{j=1}^N O_{ij} \log(p^A_{ij}/p^0_{j}),
+}{
+  2 \sum_ij O_ij log(p_ij/p_0j),
+}
+where \eqn{O_{ij}}{O_ij} is the observed number of counts in the \eqn{i}th row and \eqn{j}th column of \code{tab}, \eqn{p^A_{ij} = O_{ij}/\sum_{j=1}^C O_{ij}}{p_ij = O_ij/(\sum_j O_ij)} is the unconstrained estimate of the proportion of category \eqn{j} in population \eqn{i}, and \eqn{p^0_j = \sum_{i=1}^K O_{ij} / \sum_{i=1}^K\sum_{j=1}^C O_{ij}}{p_0j = \sum_i O_ij / \sum_ij O_ij} is the estimate of this proportion under \eqn{H_0} that the populations have indentical proportions in each category.  If any column has only zeros it is removed before calculating the LRT statistic.
 }
 \examples{
 # simple contingency table

@@ -24,9 +24,13 @@ An \code{nreps x 2} matrix with the simulated chi-squared and LR values.
 Generate multinomial samples from a common probability vector and calculate the Chi-square and Likelihood Ratio test statistics.
 }
 \details{
-The chi-squared and likelihood ratio test statistics are calculated from multinomial samples \eqn{(Y_1^1, Y_2^1), \ldots, (Y_1^M, Y_2^M)}, where
-\deqn{Y_k^m \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(N_k, p_0^m),}
-where \eqn{p_0^m} is the \eqn{m}th row of \code{p0}.
+The chi-squared and likelihood ratio test statistics are calculated from multinomial samples \eqn{(Y_1^1, Y_2^1), \ldots, (Y_1^M, Y_2^M)}{(Y_11, Y_21),\ldots,(Y_1M, Y_2M)}, where
+\deqn{
+  Y_k^m \stackrel{\textrm{ind}}{\sim} \textrm{Multinomial}(N_k, p_0^m),
+}{
+  Y_km ~ind Multinomial(N_k, p_m),
+}
+where \eqn{p_0^m}{p_m} is the \eqn{m}th row of \code{p0}.
 }
 \examples{
 # bootstrapped p-value calculation against equal genotype proportions
