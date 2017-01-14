@@ -1,4 +1,4 @@
 *.Rhistory
 *.o
 *.dll
-/inst/stan/MADPop-stan.RData$
+/inst/stan/MADPop-stan.RData
