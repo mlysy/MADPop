@@ -1,6 +1,8 @@
 ^\.Rhistory$
 ^Read-and-delete-me$
 ^setup\.R$
+^test\.R$
+^License.md$
 ^vignettes-old$
 ^vignettes/setup$
 ^vignettes/MADPop-quicktut_cache$
