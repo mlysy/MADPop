@@ -1,6 +1,6 @@
 #' (M)HC (A)llele-Based (D)ifferencing between (Pop)ulations
 #'
-#' Tools for the analysis of genotype differences between fish samples with varying number of alleles.
+#' Tools for the analysis of population differences using the Major Histocompatibility Complex (MHC) genotypes of samples having a variable number of alleles (1-4) recorded for each individual.
 #' @details For a full tutorial see package vignette: \code{vignette("MADPop-quicktut")}.
 #' @examples
 #' # typical dataset
