@@ -1,9 +1,12 @@
 #' (M)HC (A)llele-Based (D)ifferencing between (Pop)ulations
 #'
 #' Tools for the analysis of genotype differences between fish samples with varying number of alleles.
+#' @details For a full tutorial see package vignette: \code{vignette("MADPop-quicktut")}.
 #' @examples
-#' head(fish215[sample(nrow(fish215)),]) # typical dataset
+#' # typical dataset
+#' head(fish215[sample(nrow(fish215)),])
 #' table(fish215$Lake) # number of samples per lake
+#'
 #' # contingency table on two lakes
 #' iLakes <- c("Michipicoten", "Simcoe")
 #' Xsuff <- UM.suff(X = fish215[fish215$Lake %in% iLakes,])

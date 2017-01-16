@@ -22,7 +22,9 @@ install(pkg.path) # install
 # optionally, to produce the .tar.gz that can be distributed
 build(pkg.path)
 
-# check...
+# check build.
+# NOTE: this differs from R CMD check _at least_ as far as checking for valid
+# cran titles
 check(pkg.path)
 
 # run this when you want to "compile" the vignette
