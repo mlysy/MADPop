@@ -1,4 +1,5 @@
-#--- file to setup parts of the package -----------------------------------------
+#--- file to setup parts of the package -----------------------------------
+
 # won't be included in bundled version.
 
 require(devtools)
@@ -11,7 +12,7 @@ require(rstan)
 pkg.path <- getwd()
 pkg.name <- "MADPop"
 
-#--- quick install --------------------------------------------------------------
+#--- quick install --------------------------------------------------------
 
 document(pkg.path) # updates documentation
 
@@ -28,13 +29,23 @@ check(pkg.path)
 # will then be visible when you install but takes longer
 build_vignettes(pkg = pkg.path)
 
+# unfortunately check doesn't Rbuildignore correctly.
+# so run check_built on a tarball in its own folder...
+check_built(path = "c:/Users/Jerome/Documents/R/test/built")
 
-#--- vignette updating ----------------------------------------------------------
+# try to check this
+cmd <- file.path(R.home(component = "bin"),
+                 paste("R CMD check --as-cran --timings --no-manual",
+                       "MADPop_1.0.tar.gz"))
+compiled <- system(cmd)
+
+#--- vignette updating ----------------------------------------------------
+
 # check vignette
 rmarkdown::render(file.path(pkg.path, "vignettes", "MADPop-tutorial.Rmd"))
 # view it by opening MADPop/inst/doc/MADPop-tutorial.html
 
-#--- test some of the code ------------------------------------------------------
+#--- test some of the code ------------------------------------------------
 
 # after quitting and restarting:
 require(MADPop)
@@ -47,7 +58,7 @@ tmp <- hUM.post(nsamples = 100, X = fish215, rhoId = NULL,
 
 
 
-#--- SCRATCH --------------------------------------------------------------------
+#--- SCRATCH --------------------------------------------------------------
 
 # OK we'll need to provide the following functions/data.
 
@@ -69,7 +80,7 @@ tmp <- hUM.post(nsamples = 100, X = fish215, rhoId = NULL,
 # DM.sim
 # can use boot.eq.UM for generating data from the appropriate null.
 
-#--- documentation --------------------------------------------------------------
+#--- documentation --------------------------------------------------------
 
 # run this when you modify the documentation
 maps.compile <- FALSE
@@ -89,7 +100,7 @@ system(paste(shQuote(file.path(R.home("bin"), "R")),
              shQuote(find.package(pkg.name))))
 
 
-#--- vignette -------------------------------------------------------------------
+#--- vignette -------------------------------------------------------------
 
 # do this only once
 # use_vignette("MADpop-tutorial")
@@ -101,7 +112,7 @@ rmarkdown::render(file.path(pkg.path, "vignettes", "MADPop-tutorial.Rmd"))
 # will then be visible when you install but takes longer
 build_vignettes(pkg = pkg.path)
 
-#--- install package ------------------------------------------------------------
+#--- install package ------------------------------------------------------
 
 # run this when you want to install the package to see what the user gets.
 # before running these steps, quit R, re-open, and only run the following:
@@ -117,7 +128,7 @@ install(pkg = pkg.path)
 # to then use the package, quit R, re-open, and run
 require(MADPop)
 
-#--- building the package -------------------------------------------------------
+#--- building the package -------------------------------------------------
 
 # this is what will get downloaded from CRAN
 # you don't need to run this for testing/using the package

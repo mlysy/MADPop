@@ -2,10 +2,11 @@
 title: "Bayesian Testing of Equal Genotype Proportions between
 Multiple Populations"
 author: "Martin Lysy, Wookjung P. Kim, Terin Robinson"
-date: "`r Sys.Date()`"
+date: "2017-01-15"
 output: html_vignette
 header-includes:
 - \usepackage{bm}
+link-citations: true
 references:
 - id: minka00
   title: Estimating a Dirichlet Distribution
@@ -14,6 +15,7 @@ references:
     given: T.P.
   container-title: Technical Report
   publisher: Massachusetts Institute of Technology
+  URL: https://tminka.github.io/papers/dirichlet/minka-dirichlet.pdf
   type: article-journal
   issued:
     year: 2000
@@ -59,7 +61,8 @@ if(FALSE) {
 
 ```
 
-This tutorial shows how to use the **MADPop** package to test for genetic differences between two populations, of which the species contain a variable number of alleles.
+This tutorial shows how to use the **MADPop** package to test for
+genetic differences between two populations, of which the individuals of a same species contain a variable number of alleles.
 ```{r madpop}
 require(MADPop)
 ```
@@ -73,7 +76,7 @@ nPop <- nlevels(fish215$Lake)
 nAlleles <- length(table(c(as.matrix(fish215[,-1])))) - 1
 ```
 
-Our data consists of $N = `r nObs`$ recordings of Major Histocompatibility Complex (MHC) genotypes  of lake trout from $K = `r nPop`$ lakes in Ontario, Canada. For each of the fish, between 1-4 alleles in the MHC genotype are recorded.  This is partially because duplicate genes are undetectable by current instrumentation, and possibly because the fish possess a variable number of alleles at the given MHC locations.
+Our data consists of $N = `r nObs`$ recordings of Major Histocompatibility Complex (MHC) genotypes  of lake trout from $K = `r nPop`$ lakes in Ontario, Canada. For each of the fish, between 1-4 alleles in the MHC genotype are recorded.  This is partially because duplicate genes are undetectable by current instrumentation, and possibly because the fish possess a variable number of alleles of a given MHC gene.
 
 Our dataset `fish215` is included with **MADPop**.  A random sample from it looks like this:
 ```{r fish215}
@@ -145,7 +148,7 @@ signif(pv.asy, 2)
 ```
 The Chi-Square and LR tests are asymptotically equivalent and so should give roughly the same $p$-values.  The huge discrepancy observed here indicates that the sample sizes are too small for asymptotics to kick in.  A more reliable $p$-value estimate can be obtained by the Bootstrap method, which in this case consists of simulating $M$ contigency tables with $\Y_k^{(m)} \ind \textrm{Multinomial}(N_k, \hat{\rr})$, $m = 1, \ldots, M$, where $\hat{\rr}$ is the estimate of the common probability vector $\rr_1 = \rr_2$ under $H_0$.  For each contingency table $(\Y_1^{(m)}, \Y_2^{(m)})$, we calculate the test statistic $T^{(m)}$, and the bootstrapped p-value is defined as
 $$
-\pvb = \frac 1 M \sum*{m=1}^M \delta(T^{(m)} \ge T_\textrm{obs}).
+\pvb = \frac 1 M \sum_{m=1}^M \delta(T^{(m)} \ge T_\textrm{obs}).
 $$
 $\pvb$ is calculated with **MADPop** as follows:
 ```{r pvboot, cache = FALSE}
@@ -194,7 +197,7 @@ where $\alpha_0 = \sum_{i=1}^C \alpha_i$ and $\bar{\aa} = \aa / \alpha_0$.  More
 $$
 \rr_k \mid \Y \ind \textrm{Dirichlet}(\aa + \Y_k).
 $$
-In this sense, the posterior estimate of the probability vector $\rr_k$ can be non-zero even for genotypes for which $Y_{ki} = 0$, as long as $\alpha_i > 0$.  In practice, we estimate $\aa$ from the data $\Y$ from all $K$ populations (details in the following section).  The extent to which the genotypes observed in one lake affect inference in the other lakes is determined by $\alpha_0$ (the larger this value, the larger the effect).
+In this sense, the posterior estimate of the proportion of genotype $i$ in population $k$, $\rho_{ki}$, can be non-zero even if $Y*{ki} = 0$.  In practice, $\aa$ is estimated from $\Y$, the data from all $K$ populations (details in the following section).  The extent to which the genotypes observed in one lake affect inference in the other lakes is determined by $\alpha*0$ (the larger this value, the larger the effect).
 
 ### Parameter Estimation
 

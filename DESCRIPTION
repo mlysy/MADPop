@@ -1,8 +1,8 @@
 Package: MADPop
 Type: Package
 Title: (M)HC (A)llele-Based (D)ifferencing between (Pop)ulations
-Version: 0.9.0.9003
-Date: 2016-12-22
+Version: 1.0
+Date: 2017-01-15
 Authors@R: c(person("Martin", "Lysy", role = c("cre", "aut"),
                     email = "mlysy@uwaterloo.ca"),
              person("Peter W.J.", "Kim", role = "aut"),
@@ -10,7 +10,10 @@ Authors@R: c(person("Martin", "Lysy", role = c("cre", "aut"),
 Description: Tools for the analysis of genotype differences between fish samples having a variable number of alleles (1-4) recorded in the Major Histocompatibility Complex (MHC) of the genome.  A hierarchical Dirichlet-Multinomial model on the genotype counts is used to pool small sample sizes from multiple populations for pairwise tests of equality.  Bayesian inference is implemented via the rstan package.  Bootstrapped and posterior p-values are provided for chi-squared and likelihood ratio tests of equal genotype probabilities.
 Depends:
     R (>= 3.0.0),
-    rstan
+    rstan (>= 2.13.2)
+Imports:
+    stats,
+    utils
 Suggests:
     knitr,
     rmarkdown

@@ -37,4 +37,5 @@
 #'         pch = ".", col = "grey")
 #' @docType package
 #' @name MADPop
+#' @importFrom rstan extract sampling
 NULL

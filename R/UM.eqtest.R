@@ -37,6 +37,7 @@
 #' T.obs <- c(chi2 = chi2.stat(ctab), LRT = LRT.stat(ctab))
 #' # p-values
 #' rowMeans(t(T.boot) > T.obs)
+#' @importFrom stats rmultinom
 #' @export
 UM.eqtest <- function(N1, N2, p0, nreps, verbose = TRUE) {
   N <- N1+N2

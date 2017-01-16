@@ -21,6 +21,7 @@
 #' suff$H # all possible chromosomes compatible with the observed data
 #' suff$Y # dataset in simplified numerical format
 #' @keywords internal
+#' @importFrom utils combn
 HW.suff <- function(X, popId, debug = FALSE) {
   if(ncol(X) != 4) {
     stop("X must be a matrix or data.frame with 4 columns.")
