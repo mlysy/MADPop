@@ -21,9 +21,9 @@ transformed data {
   for(ii in 1:(nG-1)) {
     for(jj in 1:nHg[ii]) {
       if(Hg[1,jj,ii] == Hg[2,jj,ii]) {
-        ordCount[ii,jj] <- 1;
+        ordCount[ii,jj] = 1;
       } else {
-        ordCount[ii,jj] <- 2;
+        ordCount[ii,jj] = 2;
       }
     }
   }
@@ -38,13 +38,13 @@ parameters {
 transformed parameters {
   simplex[nG] theta[nL]; // probability of each of the observed genotypes in each lake
   for(kk in 1:nL) {
-    theta[kk,nG] <- 1;
+    theta[kk,nG] = 1;
     for(ii in 1:(nG-1)) {
-      theta[kk,ii] <- 0;
+      theta[kk,ii] = 0;
       for(jj in 1:nHg[ii]) {
-        theta[kk,ii] <- theta[kk,ii] + ordCount[ii,jj] * rho[kk,Hg[1,jj,ii]] * rho[kk,Hg[2,jj,ii]];
+        theta[kk,ii] = theta[kk,ii] + ordCount[ii,jj] * rho[kk,Hg[1,jj,ii]] * rho[kk,Hg[2,jj,ii]];
       }
-      theta[kk,nG] <- theta[kk,nG] - theta[kk,ii];
+      theta[kk,nG] = theta[kk,nG] - theta[kk,ii];
     }
   }
 }

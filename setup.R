@@ -3,10 +3,12 @@
 # won't be included in bundled version.
 
 require(devtools)
+require(Rcpp)
+#require(rstantools)
 #require(roxygen2)
-require(knitr)
-require(rmarkdown)
-require(rstan)
+#require(knitr)
+#require(rmarkdown)
+#require(rstan)
 
 # set this field to folder where the package is located
 pkg.path <- getwd()

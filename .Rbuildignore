@@ -2,7 +2,6 @@
 ^test\.R$
 ^License.md$
 ^README.md$
-^inst/stan/.*.RData$
 ^inst/stan/HardyWeinberg\.stan$
 ^inst/stan/HardyWeinbergHier\.stan$
 ^man/HW\.data\.Rd$
@@ -15,3 +14,4 @@
 ^R/HW\.post\.R$
 ^R/HW\.sim\.R$
 ^R/HW\.suff\.R$
+cleanup*

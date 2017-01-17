@@ -44,7 +44,7 @@
 #'         pch = ".", col = "grey")
 #' @export
 hUM.post <- function(nsamples, X, popId, rhoId,
-                     full.stan.out = FALSE,...) {
+                     full.stan.out = FALSE, ...) {
   suff <- UM.suff(X, popId)
   Xobs <- suff$tab
   if(missing(rhoId)) {
@@ -64,8 +64,7 @@ hUM.post <- function(nsamples, X, popId, rhoId,
     if(any(iLrho == 0)) stop("rhoId must be a subset of popId.")
   }
   nLrho <- length(iLrho)
-  # if(debug) browser()
-  sfit <- sampling(object = hUM.mod,
+  sfit <- sampling(object = stanmodels$DirichletMultinomial,
                    data = list(nG = ncol(Xobs), nL = nrow(Xobs),
                      nLrho = nLrho, iLrho = array(iLrho, dim = nLrho),
                      X = Xobs),

@@ -1,7 +1,7 @@
 Package: MADPop
 Type: Package
 Title: MHC Allele-Based Differencing Between Populations
-Version: 1.0
+Version: 1.0.1.9000
 Date: 2017-01-15
 Authors@R: c(person("Martin", "Lysy", role = c("cre", "aut"),
                     email = "mlysy@uwaterloo.ca"),
@@ -10,10 +10,18 @@ Authors@R: c(person("Martin", "Lysy", role = c("cre", "aut"),
 Description: Tools for the analysis of population differences using the Major Histocompatibility Complex (MHC) genotypes of samples having a variable number of alleles (1-4) recorded for each individual.  A hierarchical Dirichlet-Multinomial model on the genotype counts is used to pool small samples from multiple populations for pairwise tests of equality.  Bayesian inference is implemented via the 'rstan' package.  Bootstrapped and posterior p-values are provided for chi-squared and likelihood ratio tests of equal genotype probabilities.
 Depends:
     R (>= 3.0.0),
-    rstan (>= 2.13.2)
+    rstan (>= 2.14.1)
 Imports:
     stats,
-    utils
+    utils,
+    Rcpp (>= 0.12.9),
+    methods (>= 3.3.2)
+LinkingTo:
+    StanHeaders (>= 2.14.0.1),
+    rstan (>= 2.14.1),
+    BH (>= 1.62.0.1),
+    Rcpp (>= 0.12.9),
+    RcppEigen (>= 0.3.2.9.0)
 Suggests:
     knitr,
     rmarkdown
