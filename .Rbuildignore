@@ -2,8 +2,8 @@
 ^test\.R$
 ^License.md$
 ^README.md$
-^inst/chunks/HardyWeinberg\.stan$
-^inst/chunks/HardyWeinbergHier\.stan$
+^inst/staninclude/HardyWeinberg\.stan$
+^inst/staninclude/HardyWeinbergHier\.stan$
 ^man/HW\.data\.Rd$
 ^man/HW\.eqtest\.Rd$
 ^man/HW\.post\.Rd$
