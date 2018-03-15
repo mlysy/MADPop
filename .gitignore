@@ -1,5 +1,9 @@
+Read-and-delete-me
+*.DS_Store
+*.Rapp.history
 *.Rhistory
 *.o
-*.dll
 *.so
-Read-and-delete-me
+*.dll
+*.pdf
+vignettes/.build.timestamp
