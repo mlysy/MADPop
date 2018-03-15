@@ -44,11 +44,15 @@ dirichlet_multinomial_lpmf(const std::vector<int>& x,
             stan::math::fill(ans,DUMMY_VAR__);
 
 
+            current_statement_begin__ = 20;
             stan::math::assign(ans, 0.0);
+            current_statement_begin__ = 21;
             for (int ii = 1; ii <= num_elements(x); ++ii) {
 
+                current_statement_begin__ = 22;
                 stan::math::assign(ans, ((ans + stan::math::lgamma((get_base1(x,ii,"x",1) + get_base1(eta,ii,"eta",1)))) - stan::math::lgamma(get_base1(eta,ii,"eta",1))));
             }
+            current_statement_begin__ = 24;
             return stan::math::promote_scalar<fun_return_scalar_t__>(((ans + stan::math::lgamma(sum(eta))) - stan::math::lgamma((sum(x) + sum(eta)))));
         }
     } catch (const std::exception& e) {
@@ -104,23 +108,35 @@ Dirichlet_Multinomial_lpmf(const std::vector<std::vector<int> >& X,
             stan::math::fill(slgeta,DUMMY_VAR__);
 
 
+            current_statement_begin__ = 33;
             stan::math::assign(D, dims(X));
+            current_statement_begin__ = 35;
             stan::math::assign(seta, sum(eta));
+            current_statement_begin__ = 36;
             stan::math::assign(slgeta, 0.0);
+            current_statement_begin__ = 37;
             for (int jj = 1; jj <= get_base1(D,2,"D",1); ++jj) {
 
+                current_statement_begin__ = 38;
                 stan::math::assign(slgeta, (slgeta + stan::math::lgamma(get_base1(eta,jj,"eta",1))));
             }
+            current_statement_begin__ = 41;
             stan::math::assign(ans, 0.0);
+            current_statement_begin__ = 42;
             for (int ii = 1; ii <= get_base1(D,1,"D",1); ++ii) {
 
+                current_statement_begin__ = 43;
                 for (int jj = 1; jj <= get_base1(D,2,"D",1); ++jj) {
 
+                    current_statement_begin__ = 44;
                     stan::math::assign(ans, (ans + stan::math::lgamma((get_base1(get_base1(X,ii,"X",1),jj,"X",2) + get_base1(eta,jj,"eta",1)))));
                 }
+                current_statement_begin__ = 46;
                 stan::math::assign(ans, (ans - stan::math::lgamma((sum(get_base1(X,ii,"X",1)) + seta))));
             }
+            current_statement_begin__ = 48;
             stan::math::assign(ans, (ans + (get_base1(D,1,"D",1) * (stan::math::lgamma(seta) - slgeta))));
+            current_statement_begin__ = 49;
             return stan::math::promote_scalar<fun_return_scalar_t__>(ans);
         }
     } catch (const std::exception& e) {
@@ -361,7 +377,9 @@ public:
         // model body
         try {
 
+            current_statement_begin__ = 70;
             lp_accum__.add(Dirichlet_Multinomial_lpmf<propto__>(X, multiply(eta,alpha), pstream__));
+            current_statement_begin__ = 74;
             lp_accum__.add((-(2) * log((1 + eta))));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e,current_statement_begin__);
@@ -458,10 +476,13 @@ public:
 
 
         try {
+            current_statement_begin__ = 80;
             if (as_bool(logical_gt(nLrho,0))) {
 
+                current_statement_begin__ = 81;
                 for (int ii = 1; ii <= nLrho; ++ii) {
 
+                    current_statement_begin__ = 82;
                     stan::math::assign(get_base1_lhs(rho,ii,"rho",1), dirichlet_rng(add(to_vector(get_base1(X,get_base1(iLrho,ii,"iLrho",1),"X",1)),multiply(eta,alpha)), base_rng__));
                 }
             }
