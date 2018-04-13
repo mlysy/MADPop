@@ -23,4 +23,3 @@ A list with elements
 Convert a 4-column genotype matrix or data.frame into a simplified numerical format.
 }
 \keyword{internal}
-

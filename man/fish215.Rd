@@ -16,4 +16,3 @@ This \code{data.frame} is how a typical spreadsheet of genotype data gets import
 \examples{
 head(fish215)
 }
-

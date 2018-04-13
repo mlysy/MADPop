@@ -55,4 +55,3 @@ T.obs <- c(chi2 = chi2.stat(ctab), LRT = LRT.stat(ctab))
 # p-values
 rowMeans(t(T.boot) > T.obs)
 }
-

@@ -61,4 +61,3 @@ boxplot(rho.post[,1:20], las = 2,
         xlab = "Genotype", ylab = "Posterior Probability",
         pch = ".", col = "grey")
 }
-

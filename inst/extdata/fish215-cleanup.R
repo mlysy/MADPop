@@ -1,5 +1,5 @@
   # A few formatting steps
-fish215 <- read.csv(file = "data-raw/fish_study_215.csv")
+fish215 <- read.csv(file = "fish_study_215.csv")
 fish215.og <- fish215
 alleles <- as.matrix(fish215[,-1])
 # give random allele names.

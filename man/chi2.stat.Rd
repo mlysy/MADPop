@@ -38,4 +38,3 @@ colnames(ctab) <- LETTERS[1:4]
 ctab
 chi2.stat(ctab) # chi^2 test statistic
 }
-

@@ -4,8 +4,9 @@
 #' @details For a full tutorial see package vignette: \code{vignette("MADPop-quicktut")}.
 #' @docType package
 #' @name MADPop
-#' @useDynLib MADPop
-#' @importFrom Rcpp loadModule
+#' @useDynLib MADPop, .registration = TRUE
+#' @import Rcpp
+#' @import methods
 #' @importFrom rstan extract sampling
 #' @examples
 #' # typical dataset

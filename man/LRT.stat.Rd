@@ -32,4 +32,3 @@ colnames(ctab) <- LETTERS[1:4]
 ctab
 LRT.stat(ctab) # likelihood ratio statistic
 }
-

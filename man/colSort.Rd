@@ -16,4 +16,3 @@ Same matrix with rows permuted according to sort order.
 Sorts a matrix by first column, breaking ties with second column, breaking those ties with 3rd, etc.
 }
 \keyword{internal}
-

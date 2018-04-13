@@ -32,4 +32,3 @@ suff$A # allele names
 suff$G # unique genotypes
 suff$tab # contingency table
 }
-
