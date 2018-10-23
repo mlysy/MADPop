@@ -19,7 +19,7 @@ functions {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
-      ans = ans + lgamma(x[ii] + eta[ii]) - lgamma(eta[ii]);
+      ans += lgamma(x[ii] + eta[ii]) - lgamma(eta[ii]);
     }
     return ans + lgamma(sum(eta)) - lgamma(sum(x)+sum(eta));
   }
@@ -35,17 +35,17 @@ functions {
     seta = sum(eta);
     slgeta = 0.0;
     for(jj in 1:D[2]) {
-      slgeta = slgeta + lgamma(eta[jj]);
+      slgeta += lgamma(eta[jj]);
     }
     // all of X
     ans = 0.0;
     for(ii in 1:D[1]) {
       for(jj in 1:D[2]) {
-	ans = ans + lgamma(X[ii,jj] + eta[jj]);
+	ans += lgamma(X[ii,jj] + eta[jj]);
       }
-      ans = ans - lgamma(sum(X[ii])+seta);
+      ans -= lgamma(sum(X[ii])+seta);
     }
-    ans = ans + D[1] * (lgamma(seta) - slgeta);
+    ans += D[1] * (lgamma(seta) - slgeta);
     return ans;
   }
 }

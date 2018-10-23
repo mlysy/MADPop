@@ -2,7 +2,7 @@
 
 #include <Rcpp.h>
 using namespace Rcpp ;
-#include "stan_DirichletMultinomial.h"
+#include "stanExports_DirichletMultinomial.h"
 
 RCPP_MODULE(stan_fit4DirichletMultinomial_mod) {
 

@@ -191,7 +191,7 @@ $$
 $$
 That is, each population is allowed to have its own probability vector $\rr_k$.  However, these probability vectors are drawn from a common Dirichlet distribution.  The common distribution specifies that before any data is drawn, we have
 $$
-E[\rr] = \bar \aa, \qquad \var(\rho_i) = \frac{(\bar \alpha_i)(1-\bar \alpha_i)}{\alpha_0 + 1},
+E[\rr] = \bar{\aa}, \qquad \var(\rho_i) = \frac{(\bar \alpha_i)(1-\bar \alpha_i)}{\alpha_0 + 1},
 $$
 where $\alpha_0 = \sum_{i=1}^C \alpha_i$ and $\bar{\aa} = \aa / \alpha_0$.  Moreover, the posterior distribution of $\rr_k$ given $\aa$ and the data is also Dirichlet:
 $$
@@ -212,9 +212,9 @@ from which $\aa$ can be estimated by maximum likelihood [@minka00].  Alternative
 
 First, we specify a prior distribution
 $$
-\pi(\alpha_0, \bar \aa) = \frac{1}{(1+ \alpha_0)^2},
+\pi(\alpha_0, \bar{\aa}) = \frac{1}{(1+ \alpha_0)^2},
 $$
-which is a uniform distribution on the prior probability vector $\bar \aa$, and a uniform distribution on the variance-like parameter $A = (1+\alpha_0)^{-1}$, in the sense that the prior mean and variance of a given genotype population probability are
+which is a uniform distribution on the prior probability vector $\bar{\aa}$, and a uniform distribution on the variance-like parameter $A = (1+\alpha_0)^{-1}$, in the sense that the prior mean and variance of a given genotype population probability are
 $$
 E[\rho_{kj}] = \tilde \alpha_j, \qquad \var(\rho_{kj}) = A \cdot \tilde \alpha_j(1-\tilde \alpha_j).
 $$
