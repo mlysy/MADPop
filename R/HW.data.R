@@ -11,7 +11,7 @@
 #' }
 #' @details The potential chromosomes in the observed data can produce more genotypes than are found in the observed data, in which case an observation with 0 counts is added to the group of all these unobserved counts.
 #' @keywords internal
-HW.data <- function(suff, debug = FALSE) {
+HW.data <- function(suff) {
   nG <- nrow(suff$G)
   H <- t(suff$H)
   nH <- ncol(H)
@@ -62,7 +62,6 @@ HW.data <- function(suff, debug = FALSE) {
     Hg <- array(c(Hg, rep(0, 12)), dim = c(2, 6, nG))
     nHg <- c(nHg, 0)
   }
-  if(debug) browser()
   if(nL == 1) {
     ans <- list(nG = nG, nH = nH, Xg = c(Xg), Hg = Hg, nHg = nHg)
   } else {

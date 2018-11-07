@@ -19,7 +19,6 @@ geno.format <- function(X, Y.only = TRUE) {
       stop("Cannot supply both empty character and NA.")
     }
     Y[Y == ""] <- NA
-    #if(debug) browser()
     A <- factor(Y)
     Y <- matrix(as.numeric(A), ncol = 4)
     A <- levels(A)

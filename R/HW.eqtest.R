@@ -8,7 +8,7 @@
 #' @param nreps Number of replications of the simulation.
 #' @return An \code{nreps x 2} matrix with the simulated chi-squared and LR values.
 #' @keywords internal
-HW.eqtest <- function(N1, N2, H, rho, nreps, verbose = TRUE, debug = FALSE) {
+HW.eqtest <- function(N1, N2, H, rho, nreps, verbose = TRUE) {
   # precomputations
   HH <- as.matrix(expand.grid(1:nrow(H), 1:nrow(H)))
   HH <- cbind(H[HH[,1],], H[HH[,2],])
@@ -28,7 +28,6 @@ HW.eqtest <- function(N1, N2, H, rho, nreps, verbose = TRUE, debug = FALSE) {
   # output
   boot.out <- matrix(NA, nreps, 2)
   colnames(boot.out) <- c("chi2", "LRT")
-  if(debug) browser()
   for(ii in 1:nreps) {
     if(verbose && (ii%%5e3 == 0)) message("bootstrap sample ", ii, "/", nreps)
     if(Nrho > 1) {

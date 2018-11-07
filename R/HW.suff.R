@@ -21,7 +21,7 @@
 #' suff$H # all possible chromosomes compatible with the observed data
 #' suff$Y # dataset in simplified numerical format
 #' @keywords internal
-HW.suff <- function(X, popId, debug = FALSE) {
+HW.suff <- function(X, popId) {
   if(ncol(X) != 4) {
     stop("X must be a matrix or data.frame with 4 columns.")
   }
@@ -32,7 +32,6 @@ HW.suff <- function(X, popId, debug = FALSE) {
       stop("Cannot supply both empty character and NA.")
     }
     Y[Y == ""] <- NA
-    if(debug) browser()
     A <- factor(Y)
     Y <- matrix(as.numeric(A), ncol = 4)
     A <- levels(A)

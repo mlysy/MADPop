@@ -35,7 +35,6 @@ UM.suff <- function(X, popId) {
   # format gene data
   af <- geno.format(X, Y.only = FALSE)
   # create contingency table
-  #if(debug) browser()
   # gen <- apply(af$Y, 1,
   #              function(x) paste0(sort(x), collapse = "."))
   gen <- apply(af$Y, 1,
