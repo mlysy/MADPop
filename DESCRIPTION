@@ -1,8 +1,8 @@
 Type: Package
 Package: MADPop
 Title: MHC Allele-Based Differencing Between Populations
-Version: 1.1.1
-Date: 2018-10-23
+Version: 1.1.2
+Date: 2018-11-07
 Authors@R: 
     c(person(given = "Martin",
              family = "Lysy",
@@ -44,6 +44,7 @@ LinkingTo:
     StanHeaders (>= 2.18.0)
 VignetteBuilder: 
     knitr
+SystemRequirements: GNU make
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
