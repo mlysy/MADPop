@@ -21,7 +21,6 @@
 #' suff$H # all possible chromosomes compatible with the observed data
 #' suff$Y # dataset in simplified numerical format
 #' @keywords internal
-#' @importFrom utils combn
 HW.suff <- function(X, popId, debug = FALSE) {
   if(ncol(X) != 4) {
     stop("X must be a matrix or data.frame with 4 columns.")
@@ -49,7 +48,7 @@ HW.suff <- function(X, popId, debug = FALSE) {
   # unique observed genotype combinations
   G <- unique(colSort(Y))
   # inherited allele combinations for observed genotypes
-  H <- t(matrix(apply(G, 1, combn, m = 2), 2))
+  H <- t(matrix(apply(G, 1, utils::combn, m = 2), 2))
   H <- H[rowSums(H) > 0,]
   H[H[,1]==0,1] <- H[H[,1]==0,2] # replace 0's by duplicates
   H <- colSort(H) # unique order
