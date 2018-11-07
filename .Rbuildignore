@@ -1,3 +1,5 @@
+^Meta$
+^doc$
 ^setup\.R$
 ^test\.R$
 ^License.md$
