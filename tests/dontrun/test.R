@@ -119,3 +119,11 @@ LL2 <- apply(Eta, 2, function(et) {
 })
 
 LL1-LL2
+
+
+
+for(ii in 1:1000) {
+  set.seed(ii)
+  if(!(ii %% 5)) message("ii = ", ii)
+  source("test-stanmodels.R", local = TRUE)
+}

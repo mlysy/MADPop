@@ -9,8 +9,11 @@ nsamples <- 100
 rhoId <- "Simcoe"
 nobs <- sample(100:300, 1)
 X <- fish215[sample(nrow(fish215), nobs, replace = TRUE),]
-dm.mod <- hUM.post(nsamples, X = X, rhoId = rhoId, chains = 1,
-                   full.stan.out = TRUE)
+invisible(capture.output({
+  dm.mod <- hUM.post(nsamples, X = X, rhoId = rhoId, chains = 1,
+                     full.stan.out = TRUE,
+                     verbose = FALSE, show_messages = FALSE)
+}))
 dm.mod <- dm.mod$sfit
 
 ntest <- nrow(as.data.frame(dm.mod))
