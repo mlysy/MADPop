@@ -30,8 +30,7 @@ Depends:
 Imports: 
     methods,
     Rcpp (>= 0.12.0),
-    stats,
-    utils
+    stats
 Suggests: 
     knitr,
     rmarkdown,
