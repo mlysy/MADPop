@@ -9,3 +9,4 @@ Read-and-delete-me
 *.dll
 *.pdf
 vignettes/.build.timestamp
+!doc
