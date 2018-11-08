@@ -1,9 +1,8 @@
 ---
-title: "Bayesian Testing of Equal Genotype Proportions between
-Multiple Populations"
+title: "Bayesian Testing of Equal Genotype Proportions between Multiple Populations"
 author: "Martin Lysy, Wookjung P. Kim, Terin Robinson"
 date: "2017-01-15"
-output: html_vignette
+output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{bm}
 link-citations: true
@@ -63,8 +62,11 @@ if(FALSE) {
 
 This tutorial shows how to use the **MADPop** package to test for
 genetic differences between two populations, of which the individuals of a same species contain a variable number of alleles.
-```{r madpop}
+```{r madpop, eval = FALSE}
 require(MADPop)
+```
+```{r include = FALSE}
+suppressMessages(require(MADPop))
 ```
 
 

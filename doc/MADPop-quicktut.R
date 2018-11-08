@@ -11,8 +11,11 @@ if(FALSE) {
 # view it by opening MADPop/vignettes/MADPop-tutorial.html
 
 
-## ----madpop--------------------------------------------------------------
-require(MADPop)
+## ----madpop, eval = FALSE------------------------------------------------
+#  require(MADPop)
+
+## ----include = FALSE-----------------------------------------------------
+suppressMessages(require(MADPop))
 
 ## ----preproc, echo = FALSE-----------------------------------------------
 nObs <- nrow(fish215)
