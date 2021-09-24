@@ -15,7 +15,7 @@
 functions {
   // unnormalized dirichlet-multinomial distribution
   // (for likelihood only)
-  real dirichlet_multinomial_lpmf(int[] x, vector eta) {
+  real dirichlet_multinomial_lpmf_fun(int[] x, vector eta) {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
@@ -25,7 +25,7 @@ functions {
   }
   // same thing but vectorized, i.e. accepts matrix X
   // current bug prevents overloading...
-  real Dirichlet_Multinomial_lpmf(int[,] X, vector eta) {
+  real Dirichlet_Multinomial_lpmf_fun(int[,] X, vector eta) {
     int D[2];
     real ans;
     real seta;
@@ -67,7 +67,7 @@ parameters {
 model {
   //vector<lower=0> kappa[nG]; // dirichlet parameters
   //kappa = eta * alpha;
-  X ~ Dirichlet_Multinomial(eta * alpha);
+  target += Dirichlet_Multinomial_lpmf_fun(X, eta * alpha);
   // avoid ridiculously small dirichlet variance
   // using p(1/sum(eta)) \propto 1
   //increment_log_prob(-2*log(1+eta));
