@@ -7,7 +7,7 @@ using namespace Rcpp ;
 RCPP_MODULE(stan_fit4DirichletMultinomial_mod) {
 
 
-    class_<rstan::stan_fit<stan_model, boost::random::ecuyer1988> >("model_DirichletMultinomial")
+    class_<rstan::stan_fit<stan_model, boost::random::ecuyer1988> >("rstantools_model_DirichletMultinomial")
 
     .constructor<SEXP,SEXP,SEXP>()
 
@@ -27,5 +27,6 @@ RCPP_MODULE(stan_fit4DirichletMultinomial_mod) {
     .method("num_pars_unconstrained", &rstan::stan_fit<stan_model, boost::random::ecuyer1988> ::num_pars_unconstrained)
     .method("unconstrained_param_names", &rstan::stan_fit<stan_model, boost::random::ecuyer1988> ::unconstrained_param_names)
     .method("constrained_param_names", &rstan::stan_fit<stan_model, boost::random::ecuyer1988> ::constrained_param_names)
+    .method("standalone_gqs", &rstan::stan_fit<stan_model, boost::random::ecuyer1988> ::standalone_gqs)
     ;
 }

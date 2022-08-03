@@ -7,29 +7,29 @@ if(identical(Sys.getenv("NOT_CRAN"), "true")) {
 } else {
   set.seed(1)
 }
+
 source("MADPop-testfunctions.R")
-data(fish215, package = "MADPop")
 
-# fit model
-nsamples <- 100
-rhoId <- "Simcoe"
-nobs <- sample(100:300, 1)
-X <- fish215[sample(nrow(fish215), nobs, replace = TRUE),]
-invisible(capture.output({
-  dm.mod <- hUM.post(nsamples, X = X, rhoId = rhoId, chains = 1,
-                     full.stan.out = TRUE,
-                     verbose = FALSE, show_messages = FALSE)
-}))
-dm.mod <- dm.mod$sfit
-
-ntest <- nrow(as.data.frame(dm.mod))
+## data(fish215, package = "MADPop")
 
 test_that("logpost_R == logpost_Stan", {
-  library(rstan)
+  ## library(rstan)
+  # fit model
+  nsamples <- 100
+  rhoId <- "Simcoe"
+  nobs <- sample(100:300, 1)
+  X <- fish215[sample(nrow(fish215), nobs, replace = TRUE),]
+  suppressWarnings(invisible(capture.output({
+    dm.mod <- hUM.post(nsamples, X = X, rhoId = rhoId, chains = 1,
+                       full.stan.out = TRUE,
+                       verbose = FALSE, show_messages = FALSE)
+  })))
+  dm.mod <- dm.mod$sfit
+  ntest <- nrow(as.data.frame(dm.mod))
   # stan posterior
   lp.stan <- sapply(1:ntest, function(ii) {
-    upars <- unconstrain_pars(dm.mod, pars = extract.iter(dm.mod, ii))
-    log_prob(dm.mod, upars = upars, adjust_transform = FALSE)
+    upars <- rstan::unconstrain_pars(dm.mod, pars = extract.iter(dm.mod, ii))
+    rstan::log_prob(dm.mod, upars = upars, adjust_transform = FALSE)
   })
   # R posterior
   Xobs <- UM.suff(X)$tab

@@ -1,7 +1,7 @@
 ---
 title: "Bayesian Testing of Equal Genotype Proportions between Multiple Populations"
 author: "Martin Lysy, Wookjung P. Kim, Terin Robinson"
-date: "2017-01-15"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 header-includes:
 - \usepackage{bm}
@@ -22,7 +22,7 @@ references:
   title: "Rstan: the R interface to Stan"
   author:
   - family: "Stan Development Team"
-  URL: http://mc-stan.org
+  URL: https://mc-stan.org/rstan/
   type: webpage
   issued:
     year: 2016
@@ -90,7 +90,7 @@ It is relatively straightforward to import a CSV file into the format above.  An
 ```{r setup2, ref.label = "table2", echo = FALSE, results = "hide"}
 ```
 
-Suppose that we wish to compare two lakes, say `r popId[1]` and `r popId[2]`.  The allele counts in these lakes are in the table below.  It is a subset of the full contingency table on all $K = `r nPop`$ lakes, which is produced by the **MADPop** function `UM.suff`:
+Suppose that we wish to compare two lakes, say `r popId[1]` and `r popId[2]`.  The allele counts in these lakes are in the table below.  It is a subset of the full contingency table on all $K = `r nPop`$ lakes, which is produced by the **MADPop** function `UM.suff()`:
 ```{r table2}
 popId <- c("Dickey", "Simcoe")          # lakes to compare
 Xsuff <- UM.suff(fish215)             # summary statistics for dataset
@@ -179,7 +179,7 @@ cbind(ctab[,itab1],
 c1 <- sum(itab1) # number of single-count columns
 n1 <- sum(ctab[,itab1]) # number of single counts
 ```
-There are $c_1 = `r c1`$ such columns, accounting for $\hat p_1 = `r n1/sum(ctab)`$ of the common genotype distribution under $H_0$, as estimated from the two-lake sample.  For each of these columns, observing counts in one lake but not the other provides evidence against $H_0$.  Moreover, under the estimated common distribution $\hat {\rr}$, it is very unlikely to have counts in only one of the lakes for each of these $c_1 = `r c1`$ genotypes.  Therefore, the data appear to provide very strong evidence against $H_0$.  However, it is not so unlikely to have $c_1 = `r c1`$ one-count genotypes if the true number of unique genotypes in these two lakes is much larger than the observed value of $C = `r C`$.  With $C = `r C`$ unique genotypes in only $N = N_1 + N_2 = `r N1 + N2`$ fish samples, it is quite plausible that a new sample of fish would yield several genotypes which are not present in the original two-lake sample ``ctab``.
+There are $c_1 = `r c1`$ such columns, accounting for $\hat p_1 = `r n1/sum(ctab)`$ of the common genotype distribution under $H_0$, as estimated from the two-lake sample.  For each of these columns, observing counts in one lake but not the other provides evidence against $H_0$.  Moreover, under the estimated common distribution $\hat {\rr}$, it is very unlikely to have counts in only one of the lakes for each of these $c_1 = `r c1`$ genotypes.  Therefore, the data appear to provide very strong evidence against $H_0$.  However, it is not so unlikely to have $c_1 = `r c1`$ one-count genotypes if the true number of unique genotypes in these two lakes is much larger than the observed value of $C = `r C`$.  With $C = `r C`$ unique genotypes in only $N = N_1 + N_2 = `r N1 + N2`$ fish samples, it is quite plausible that a new sample of fish would yield several genotypes which are not present in the original two-lake sample `ctab`.
 
 One way to obtain information about the unobserved genotypes in lakes `r popId[1]` and `r popId[2]` is to consider the genotypes in *all* $K = `r nPop`$ Ontario lakes for which we have collected data.  A natural way to do this is through a hierarchical model:
 $$
@@ -207,7 +207,7 @@ $$
 & = \prod_{k=1}^K \left[\frac{N_k!\cdot\Gamma(\alpha_0)}{\Gamma(N_k+\alpha_0)} \prod_{i=1}^C \frac{\Gamma(Y_{ki} + \alpha_i)}{Y_{ki}!\cdot\Gamma(\alpha_i)}\right],
 \end{split}
 $$
-from which $\aa$ can be estimated by maximum likelihood [@minka00].  Alternatively we estimate $\aa$ using a Bayesian approach, which is more readily extensible to more complex genotype models, for which $\mathcal L(\aa \mid \Y)$ has no closed form (see Future Work).
+from which $\aa$ can be estimated by maximum likelihood [@minka00].  Alternatively we estimate $\aa$ using a Bayesian approach, which is more readily extensible to more complex genotype models, for which $\mathcal L(\aa \mid \Y)$ has no closed form (see [Future Work](#future-work)).
 
 First, we specify a prior distribution
 $$
@@ -217,7 +217,7 @@ which is a uniform distribution on the prior probability vector $\bar{\aa}$, and
 $$
 E[\rho_{kj}] = \tilde \alpha_j, \qquad \var(\rho_{kj}) = A \cdot \tilde \alpha_j(1-\tilde \alpha_j).
 $$
-Then, we sample from the posterior distribution $p(\aa \mid \Y) \propto \LL(\aa \mid \Y) \pi(\aa)$ using a Markov chain Monte Carlo (MCMC) algorithm provided by the **stan** programming language [@rstan], as detailed below.
+Then, we sample from the posterior distribution $p(\aa \mid \Y) \propto \LL(\aa \mid \Y) \pi(\aa)$ using a Markov chain Monte Carlo (MCMC) algorithm provided by the **Stan** programming language [@rstan], as detailed below.
 
 
 ## Bayesian Hypothesis Testing
@@ -232,7 +232,7 @@ $$
 
 ### MCMC Sampling from the Posterior Distribution
 
-In order to estimate $\aa$ under $H_0$, we apply the Dirichlet-Multinomial distribution to $K-1$ lakes, with the first two being collapsed into a common count vector $\Y_{12} = \Y_1 + \Y_2$ with sample size $N_{12} = N_1 + N_2$.  MCMC sampling is implemented via a Hybrid Monte Carlo (HMC) variant provided by the **R** package **rstan**.  In **MADPop**, sampling from $p(\aa \mid \Y, H_0)$ is accomplished with the function ``hUM.post``, where "hUM" stands for *hierarchical Unconstrained Multinomial* model.  We start by merging the two samples from equal distributions under $H_0$:
+In order to estimate $\aa$ under $H_0$, we apply the Dirichlet-Multinomial distribution to $K-1$ lakes, with the first two being collapsed into a common count vector $\Y_{12} = \Y_1 + \Y_2$ with sample size $N_{12} = N_1 + N_2$.  MCMC sampling is implemented via a Hybrid Monte Carlo (HMC) variant provided by the **R** package **rstan**.  In **MADPop**, sampling from $p(\aa \mid \Y, H_0)$ is accomplished with the function `hUM.post()`, where "hUM" stands for *hierarchical Unconstrained Multinomial* model.  We start by merging the two samples from equal distributions under $H_0$:
 ```{r popId0}
 popId                                   # equal lakes under H0
 eqId0 <- paste0(popId, collapse = ".")  # merged lake name
@@ -252,12 +252,12 @@ fit0 <- hUM.post(nsamples = nsamples, X = X0,
                  full.stan.out = FALSE)
 
 ```
-``rstan`` typically throws a number of exceptions which are usually harmless.  The ``MADPop`` package lists ``rstan`` as a dependency, such that its sophisticated tuning mechanism is exposed.  Optionally, ``hUM.post`` returns the entire ``rstan`` output (``full.stan.output = TRUE``), which can be run through ``rstan``'s MCMC convergence diagnostics.
+**rstan** typically outputs a number of messages and warnings, many of which are harmless.  The **MADPop** package lists **rstan** as a dependency, such that its sophisticated tuning mechanism is exposed.  Optionally, `hUM.post()` returns the entire **rstan** output (``full.stan.output = TRUE``), which can be run through **rstan**'s MCMC convergence diagnostics.
 
 ```{r setup3, ref.label = "bxp", echo = FALSE, fig.keep = "none"}
 ```
 
-By setting the ``rhoId`` argument of ``hUM.post``, the ``fit0`` object contains samples from $p(\aa, \rr_{12} \mid \Y, H_0)$.  Boxplots of the `r nbxp` highest posterior probability genotypes in the common distribution $\rr_{12}$ are displayed below:
+By setting the `rhoId` argument of `hUM.post()`, the `fit0` object contains samples from $p(\aa, \rr_{12} \mid \Y, H_0)$.  Boxplots of the `r nbxp` highest posterior probability genotypes in the common distribution $\rr_{12}$ are displayed below:
 ```{r bxp, fig.width = 7, fig.height = 3.5}
 rho.post <- fit0$rho[,1,]   # p(rho12 | Y)
 # sort genotype counts by decreasing order
@@ -308,7 +308,7 @@ We see that $\pvp$ is much more conservative than $\pvb$.
 
 ## Future Work
 
-Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on $\rr_k$ is that $\rho_{ki} \ge 0$ and $\sum_{i=1}^C \rho_{ki} = 1$.  However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of $\rr_k$ below $C-1$.  In this case, the closed-form likelihood $\LL(\aa \mid \Y)$ is typically unavailable, but the **stan** code can easily be modified to sample from $p(\aa, \RR \mid \Y)$, where $\RR = (\rr_1, \ldots, \rr_K)$.  We hope to feature some of these extensions to the basic Dirichlet-Multinomial model in the next version of **MADPop**.
+Here we used a completely unconstrained Multinomial model for the genotype counts, in the sense that the only restriction on $\rr_k$ is that $\rho_{ki} \ge 0$ and $\sum_{i=1}^C \rho_{ki} = 1$.  However, it is possible to impose genetic constraints such as Hardy-Weinberg equilibrium, preferential mating, etc., which effectively reduce the degrees of freedom of $\rr_k$ below $C-1$.  In this case, the closed-form likelihood $\LL(\aa \mid \Y)$ is typically unavailable, but the **Stan** code can easily be modified to sample from $p(\aa, \RR \mid \Y)$, where $\RR = (\rr_1, \ldots, \rr_K)$.  We hope to feature some of these extensions to the basic Dirichlet-Multinomial model in the next version of **MADPop**.
 
 
 <!-- ```{r, echo = FALSE} -->

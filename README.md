@@ -1,7 +1,33 @@
-# MADPop
-**(M)HC (A)llele-Based (D)ifferencing between (Pop)ulations**
+# MADPop: MHC Allele-Based Differencing Between Populations
 
 *Martin Lysy, Peter W.J. Kim, Terin Robinson*
 
-Tools for the analysis of genotype differences between fish samples with varying number of alleles.  
-Quick tutorial [here](http://htmlpreview.github.com/?https://github.com/mlysy/MADPop/use_rstan/doc/MADPop-quicktut.html).
+---
+
+### Description
+
+Tools for the analysis of population differences
+using the Major Histocompatibility Complex (MHC) genotypes of samples
+having a variable number of alleles (1-4) recorded for each
+individual.  A hierarchical Dirichlet-Multinomial model on the
+genotype counts is used to pool small samples from multiple
+populations for pairwise tests of equality.  Bayesian inference is
+implemented via the [**rstan**](https://mc-stan.org/rstan/) package.  Bootstrapped and posterior
+p-values are provided for chi-squared and likelihood ratio tests of
+equal genotype probabilities.
+
+### Installation
+
+To install the latest R release:
+```r
+install.packages("MADPop")
+```
+
+To install the latest development version, first install the R package [**devtools**](https://CRAN.R-project.org/package=devtools) then run
+```r
+devtools::install_github("mlysy/MADPop")
+```
+
+### Usage
+
+Please see tutorial `vignette("MADPop-quicktut")`.

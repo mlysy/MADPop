@@ -62,11 +62,8 @@ if(FALSE) {
 
 This tutorial shows how to use the **MADPop** package to test for
 genetic differences between two populations, of which the individuals of a same species contain a variable number of alleles.
-```{r madpop, eval = FALSE}
+```{r madpop}
 require(MADPop)
-```
-```{r include = FALSE}
-suppressMessages(require(MADPop))
 ```
 
 

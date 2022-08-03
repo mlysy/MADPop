@@ -1,4 +1,4 @@
-## ----setup, echo = FALSE, include = FALSE--------------------------------
+## ----setup, echo = FALSE, include = FALSE-------------------------------------
 
 require(knitr)
 require(rmarkdown)
@@ -11,21 +11,18 @@ if(FALSE) {
 # view it by opening MADPop/vignettes/MADPop-tutorial.html
 
 
-## ----madpop, eval = FALSE------------------------------------------------
-#  require(MADPop)
+## ----madpop-------------------------------------------------------------------
+require(MADPop)
 
-## ----include = FALSE-----------------------------------------------------
-suppressMessages(require(MADPop))
-
-## ----preproc, echo = FALSE-----------------------------------------------
+## ----preproc, echo = FALSE----------------------------------------------------
 nObs <- nrow(fish215)
 nPop <- nlevels(fish215$Lake)
 nAlleles <- length(table(c(as.matrix(fish215[,-1])))) - 1
 
-## ----fish215-------------------------------------------------------------
+## ----fish215------------------------------------------------------------------
 head(fish215[sample(nObs),])
 
-## ----setup2, ref.label = "table2", echo = FALSE, results = "hide"--------
+## ----setup2, ref.label = "table2", echo = FALSE, results = "hide"-------------
 popId <- c("Dickey", "Simcoe")          # lakes to compare
 Xsuff <- UM.suff(fish215)             # summary statistics for dataset
 ctab <- Xsuff$tab[popId,]             # contingency table
@@ -33,7 +30,7 @@ ctab <- ctab[,colSums(ctab) > 0] # remove alleles with no counts
 #ctab
 rbind(ctab, Total = colSums(ctab))
 
-## ----table2--------------------------------------------------------------
+## ----table2-------------------------------------------------------------------
 popId <- c("Dickey", "Simcoe")          # lakes to compare
 Xsuff <- UM.suff(fish215)             # summary statistics for dataset
 ctab <- Xsuff$tab[popId,]             # contingency table
@@ -41,14 +38,14 @@ ctab <- ctab[,colSums(ctab) > 0] # remove alleles with no counts
 #ctab
 rbind(ctab, Total = colSums(ctab))
 
-## ----gtype---------------------------------------------------------------
+## ----gtype--------------------------------------------------------------------
 gtype <- colnames(ctab)[1]
 gtype <- as.numeric(strsplit(gtype, "[.]")[[1]])
 gtype
 names(gtype) <- paste0("A", gtype)
 sapply(gtype, function(ii) Xsuff$A[ii])
 
-## ----pvasy---------------------------------------------------------------
+## ----pvasy--------------------------------------------------------------------
 # observed values of the test statistics
 chi2.obs <- chi2.stat(ctab) # Pearson's chi^2
 LRT.obs <- LRT.stat(ctab) # LR test statistic
@@ -58,7 +55,7 @@ C <- ncol(ctab)
 pv.asy <- pchisq(q = T.obs, df = C-1, lower.tail = FALSE)
 signif(pv.asy, 2)
 
-## ----pvboot, cache = FALSE-----------------------------------------------
+## ----pvboot, cache = FALSE----------------------------------------------------
 N1 <- sum(ctab[1,])                     # size of first sample
 N2 <- sum(ctab[2,])                     # size of second sample
 rho.hat <- colSums(ctab)/(N1+N2)        # common probability vector
@@ -72,24 +69,24 @@ system.time({
 pv.boot <- rowMeans(t(T.boot) >= T.obs)
 signif(pv.boot, 2)
 
-## ----table3--------------------------------------------------------------
+## ----table3-------------------------------------------------------------------
 itab1 <- colSums(ctab) == 1             # single count genotypes
 cbind(ctab[,itab1],
       Other = rowSums(ctab[,!itab1]),
       Total = rowSums(ctab))
 
-## ----setup4, echo = FALSE------------------------------------------------
+## ----setup4, echo = FALSE-----------------------------------------------------
 c1 <- sum(itab1) # number of single-count columns
 n1 <- sum(ctab[,itab1]) # number of single counts
 
-## ----popId0--------------------------------------------------------------
+## ----popId0-------------------------------------------------------------------
 popId                                   # equal lakes under H0
 eqId0 <- paste0(popId, collapse = ".")  # merged lake name
 popId0 <- as.character(fish215$Lake)    # all lake names
 popId0[popId0 %in% popId] <- eqId0
 table(popId0, dnn = NULL)               # merged lake counts
 
-## ----stan, cache = TRUE--------------------------------------------------
+## ----stan, cache = TRUE-------------------------------------------------------
 X0 <- cbind(Id = popId0, fish215[-1])  # allele data with merged lakes
 
 nsamples <- 1e4
@@ -100,7 +97,7 @@ fit0 <- hUM.post(nsamples = nsamples, X = X0,
                  full.stan.out = FALSE)
 
 
-## ----setup3, ref.label = "bxp", echo = FALSE, fig.keep = "none"----------
+## ----setup3, ref.label = "bxp", echo = FALSE, fig.keep = "none"---------------
 rho.post <- fit0$rho[,1,]   # p(rho12 | Y)
 # sort genotype counts by decreasing order
 rho.count <- colSums(Xsuff$tab[popId,])
@@ -121,7 +118,7 @@ title(ylab = expression(p(bold(rho)[(12)]*" | "*bold(Y))))
 legend("topright", legend = rev(rho.lgd), fill = rev(clrs[rho.lgd+1]),
        title = "Counts", ncol = 2, cex = .8)
 
-## ----bxp, fig.width = 7, fig.height = 3.5--------------------------------
+## ----bxp, fig.width = 7, fig.height = 3.5-------------------------------------
 rho.post <- fit0$rho[,1,]   # p(rho12 | Y)
 # sort genotype counts by decreasing order
 rho.count <- colSums(Xsuff$tab[popId,])
@@ -142,7 +139,7 @@ title(ylab = expression(p(bold(rho)[(12)]*" | "*bold(Y))))
 legend("topright", legend = rev(rho.lgd), fill = rev(clrs[rho.lgd+1]),
        title = "Counts", ncol = 2, cex = .8)
 
-## ----pvpost, cache = FALSE-----------------------------------------------
+## ----pvpost, cache = FALSE----------------------------------------------------
 system.time({
   T.post <- UM.eqtest(N1 = N1, N2 = N2, p0 = rho.post, nreps = 1e4,
                       verbose = FALSE)
@@ -150,7 +147,7 @@ system.time({
 # posterior p-value
 pv.post <- rowMeans(t(T.post) >= T.obs)
 
-## ----pvtable, echo = FALSE-----------------------------------------------
+## ----pvtable, echo = FALSE----------------------------------------------------
 pv.tab <- cbind(asy = pv.asy, boot = pv.boot, post = pv.post)
 pv.tab <- signif(pv.tab*100, 2)
 colnames(pv.tab) <- c("Asymptotic", "Bootstrap", "Posterior")

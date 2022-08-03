@@ -1,8 +1,8 @@
 Type: Package
 Package: MADPop
 Title: MHC Allele-Based Differencing Between Populations
-Version: 1.1.2
-Date: 2018-11-07
+Version: 1.1.3
+Date: 2022-08-03
 Authors@R: 
     c(person(given = "Martin",
              family = "Lysy",
@@ -23,6 +23,8 @@ Description: Tools for the analysis of population differences
     implemented via the 'rstan' package.  Bootstrapped and posterior
     p-values are provided for chi-squared and likelihood ratio tests of
     equal genotype probabilities.
+URL: https://github.com/mlysy/MADPop
+BugReports: https://github.com/mlysy/MADPop/issues
 License: GPL-3
 Depends: 
     R (>= 3.4.0),
@@ -46,4 +48,4 @@ VignetteBuilder:
 SystemRequirements: GNU make
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
