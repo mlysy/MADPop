@@ -8,6 +8,7 @@
 #' @import Rcpp
 #' @import methods
 #' @importFrom rstan extract sampling
+#' @importFrom rstantools rstan_config
 #' @examples
 #' # typical dataset
 #' head(fish215[sample(nrow(fish215)),])

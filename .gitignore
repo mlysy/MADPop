@@ -6,6 +6,10 @@ Read-and-delete-me
 *.so
 *.dll
 *.pdf
+/R/stanmodels.R
+/src/RcppExports.cpp
+/src/stanExports_*.cc
+/src/stanExports_*.h
 vignettes/.build.timestamp
 /doc/
 /Meta/
