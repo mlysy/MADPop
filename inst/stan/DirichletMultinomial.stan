@@ -15,7 +15,7 @@
 functions {
   // unnormalized dirichlet-multinomial distribution
   // (for likelihood only)
-  real dirichlet_multinomial_lpmf(int[] x, vector eta) {
+  real dirichlet_multinomial_lpmf(array[] int x, vector eta) {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
@@ -25,8 +25,8 @@ functions {
   }
   // same thing but vectorized, i.e. accepts matrix X
   // current bug prevents overloading...
-  real Dirichlet_Multinomial_lpmf(int[,] X, vector eta) {
-    int D[2];
+  real Dirichlet_Multinomial_lpmf(array[,] int X, vector eta) {
+    array[2] int D;
     real ans;
     real seta;
     real slgeta;
@@ -53,10 +53,10 @@ functions {
 data {
   int<lower=1> nG; // number of observed genotype categories
   int<lower=1> nL; // number of lakes
-  int<lower=0> X[nL,nG]; // vector of counts for each lake
+  array[nL,nG] int<lower=0> X; // vector of counts for each lake
   //real<lower=0> eta; // hyper prior precision parameter
   int<lower=0,upper=nL> nLrho; // number of lakes for which to generate samples from rho
-  int<lower=1,upper=nL> iLrho[nLrho]; // indices of these lakes
+  array[nLrho] int<lower=1,upper=nL> iLrho; // indices of these lakes
 }
 
 parameters {
@@ -76,7 +76,7 @@ model {
 
 generated quantities {
   // individual lake multinomial parameters
-  simplex[nG] rho[nLrho];
+  array[nLrho] simplex[nG] rho;
   if(nLrho > 0) {
     for(ii in 1:nLrho) {
       rho[ii] = dirichlet_rng(to_vector(X[iLrho[ii]]) + eta * alpha);
