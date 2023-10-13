@@ -33,4 +33,4 @@ devtools::install_github("mlysy/MADPop")
 
 ### Usage
 
-Please see tutorial `vignette("MADPop-quicktut")`.
+Please see tutorial [here](https://CRAN.R-project.org/package=MADPop/vignettes/MADPop-quicktut.html) or by running `vignette("MADPop-quicktut")`.
