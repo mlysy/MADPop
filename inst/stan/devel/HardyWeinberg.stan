@@ -4,16 +4,16 @@
 data {
   int<lower=1> nG; // number of observed  genotype categories
   int<lower=1> nH; // number of inherited genotype categories
-  int<lower=0> Xg[nG]; // number of observations for each of the observed genotype categories
+  array[nG] int<lower=0> Xg; // number of observations for each of the observed genotype categories
   // inheritance information
   // for each observed genotype category, each (unordered) combination of inherited genotypes
   // which could make up the observation.  For two locations, there are at most 6 combinations.
-  int<lower=0,upper=nH> Hg[2,6,nG];
-  int<lower=0,upper=6> nHg[nG]; // number of inheritance combinations for each observed genotype category.
+  array[2,6,nG] int<lower=0,upper=nH> Hg;
+  array[nG] int<lower=0,upper=6> nHg; // number of inheritance combinations for each observed genotype category.
 }
 
 transformed data {
-  int ordCount[nG,6]; // how many times to count the order of each inheritance pattern (once or twice)
+  array[nG,6] int ordCount; // how many times to count the order of each inheritance pattern (once or twice)
   for(ii in 1:(nG-1)) {
     for(jj in 1:nHg[ii]) {
       if(Hg[1,jj,ii] == Hg[2,jj,ii]) {
