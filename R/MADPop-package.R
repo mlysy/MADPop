@@ -2,8 +2,6 @@
 #'
 #' Tools for the analysis of population differences using the Major Histocompatibility Complex (MHC) genotypes of samples having a variable number of alleles (1-4) recorded for each individual.
 #' @details For a full tutorial see package vignette: \code{vignette("MADPop-quicktut")}.
-#' @docType package
-#' @name MADPop
 #' @useDynLib MADPop, .registration = TRUE
 #' @import Rcpp
 #' @import methods
@@ -45,4 +43,4 @@
 #' boxplot(rho.post[,1:20], las = 2,
 #'         xlab = "Genotype", ylab = "Posterior Probability",
 #'         pch = ".", col = "grey")
-NULL
+"_PACKAGE"
