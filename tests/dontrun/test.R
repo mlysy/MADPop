@@ -5,7 +5,7 @@ DM.mod <- stanc(model_code = "
 functions {
   // unnormalized dirichlet-multinomial distribution
   // (for likelihood only)
-  real dirichlet_multinomial_lpmf(int[] x, vector eta) {
+  real dirichlet_multinomial2_lpmf(int[] x, vector eta) {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
@@ -92,12 +92,12 @@ for(ii in 1:nL) {
 # parameters
 Eta <- replicate(10, rexp(nG, .1))
 
-dirichlet_multinomial_lpmf(x = X[1,], eta = eta)
+dirichlet_multinomial2_lpmf(x = X[1,], eta = eta)
 Dirichlet_Multinomial_lpdf(X = X[1,,drop=FALSE], eta = eta)
 
 # loglikelihood, single lake
 ll1 <- apply(Eta, 2, function(et) {
-  dirichlet_multinomial_lpmf(x = X[1,], eta = et)
+  dirichlet_multinomial2_lpmf(x = X[1,], eta = et)
 })
 ll2 <- apply(Eta, 2, function(et) {
   ddirmulti(x = X[1,], alpha = et, log = TRUE)

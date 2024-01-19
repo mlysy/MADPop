@@ -15,7 +15,7 @@
 functions {
   // unnormalized dirichlet-multinomial distribution
   // (for likelihood only)
-  real dirichlet_multinomial_lpmf(array[] int x, vector eta) {
+  real dirichlet_multinomial2_lpmf(array[] int x, vector eta) {
     real ans;
     ans = 0.0;
     for(ii in 1:num_elements(x)) {
