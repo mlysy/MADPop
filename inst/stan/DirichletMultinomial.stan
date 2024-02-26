@@ -1,30 +1,37 @@
-// STAN model for the Dirichlet-Multinomial Distribution
-// {mlysy,pwjkim}@uwaterloo.ca, january 2015
-//
-// model is:
-// X_l | rho_l ~ Multinomial(N_l, rho_l)
-// rho_l ~ Dirichlet(eta * alpha),
-// where sum(alpha = 1).
-// thus the prior expectation is E[rho_l] = alpha.
-//
-// for now, let's assume that eta is given, though ideally it will be estimated from the
-// data.
+/* STAN model for the Dirichlet-Multinomial Distribution
 
-// [[devtools.stan::export("hUM.mod")]]
+   {mlysy,pwjkim}@uwaterloo.ca, january 2015
+
+Model is:
+```
+X_l | rho_l ~ Multinomial(N_l, rho_l)
+rho_l ~ Dirichlet(eta * alpha),
+```
+where `sum(alpha = 1)`.  Thus, the prior expectation is `E[rho_l] = alpha`.
+
+For now, let's assume that `eta` is given, though ideally it will be estimated from the data.
+*/
 
 functions {
-  // unnormalized dirichlet-multinomial distribution
-  // (for likelihood only)
-  real dirichlet_multinomial_lpmf(array[] int x, vector eta) {
-    real ans;
-    ans = 0.0;
-    for(ii in 1:num_elements(x)) {
-      ans += lgamma(x[ii] + eta[ii]) - lgamma(eta[ii]);
-    }
-    return ans + lgamma(sum(eta)) - lgamma(sum(x)+sum(eta));
-  }
-  // same thing but vectorized, i.e. accepts matrix X
-  // current bug prevents overloading...
+  
+  //' Unnormalized Dirichlet-Multinomial distribution.
+  //'
+  //' For likelihood only.
+  //' No longer needed since now provided by Stan.
+  // real dirichlet_multinomial_lpmf(array[] int x, vector eta) {
+  //   real ans;
+  //   ans = 0.0;
+  //   for(ii in 1:num_elements(x)) {
+  //     ans += lgamma(x[ii] + eta[ii]) - lgamma(eta[ii]);
+  //   }
+  //   return ans + lgamma(sum(eta)) - lgamma(sum(x)+sum(eta));
+  // }
+  
+  //' Unnormalized Dirichlet-Multinomial distribution with vectorized inputs.
+  //'
+  //' @param X Matrix of DM observations, one on each row.
+  //' @param eta Vector of positive DM parameters.
+  //' @return The loglikelihood as a function of `eta`.  In other words, sum of the log-PDFs for each for of `X`, but dropping anything that does not involve `eta`.
   real Dirichlet_Multinomial_lpmf(array[,] int X, vector eta) {
     array[2] int D;
     real ans;
